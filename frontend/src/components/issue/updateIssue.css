@@ -1,0 +1,154 @@
+.issueUpdate_Container {
+  width: 100vw;
+  height: 100vh;
+  margin-top: 4rem;
+  padding-top: 1rem;
+  padding-inline: 17rem;
+
+  background-color: #0d1117;
+}
+
+.issue_Repo {
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.issue_Repo span {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.issue_Repo span ~ span {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.issue_Description {
+  margin-top: 0.5rem;
+}
+
+.issue_Description span {
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-right: 0.5rem;
+}
+
+.issue_Description input {
+  width: 35rem;
+  height: 1.75rem;
+  border-radius: 5px;
+  padding: 2px 6px;
+  border: 1.5px solid gray;
+  background-color: #0d1117;
+}
+
+.issue_Status {
+  width: 48rem;
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  margin-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1.5px solid rgba(128, 128, 128, 0.266);
+}
+
+.issue_Status > span {
+  font-weight: 500;
+}
+
+.open_Container {
+  display: flex;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.open_Container input {
+  cursor: pointer;
+}
+
+.open_Container .open {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.open div {
+  display: flex;
+  flex-direction: column;
+}
+
+.open div span {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.closed_Container {
+  display: flex;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.closed_Container input {
+  cursor: pointer;
+}
+
+.closed_Container .closed {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.closed div {
+  display: flex;
+  flex-direction: column;
+}
+
+.closed div span {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.issue_Change {
+  width: 25rem;
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.issue_Change .update_Issue {
+  height: 1.75rem;
+  width: 8.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #238636;
+  border: 1.5px solid #238636;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.issue_Change .cancel_update_Issue {
+  width: 8.5rem;
+  height: 1.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 16px;
+  border: 1.5px solid gray;
+  cursor: pointer;
+  background-color: #213028bc;
+
+  &:hover {
+    background-color: #213028;
+  }
+}

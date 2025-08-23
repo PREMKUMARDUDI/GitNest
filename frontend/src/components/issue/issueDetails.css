@@ -1,0 +1,122 @@
+.IssueDetails_Container {
+  width: 100vw;
+  height: 100vh;
+  margin-top: 4rem;
+  padding-top: 1rem;
+  padding-inline-start: 17rem;
+
+  background-color: #0d1117;
+}
+
+.issue_Top {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.status_Icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1.5rem;
+  width: 3.5rem;
+  border: 1px solid gray;
+  border-radius: 16px;
+  padding-block: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.issue_Repo {
+  margin-top: 0.5rem;
+}
+
+.issue_Repo span {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.issue_Repo span ~ span {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.issue_Description {
+  margin-top: 1.5rem;
+}
+
+.issue_Description span {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.issue_Description span ~ span {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.issue_Change_Navigates {
+  width: 25rem;
+  margin-top: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.issue_Change_Navigates .update_Issue {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1.5rem;
+  width: 8.25rem;
+  color: #238636;
+  border: 1.5px solid #238636;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding-block: 0.8rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgb(255, 255, 255, 0.12);
+  }
+}
+
+.issue_Change_Navigates .delete_Issue {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1.5rem;
+  width: 8.25rem;
+  color: red;
+  border: 1.5px solid red;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding-block: 0.8rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgb(255, 255, 255, 0.12);
+  }
+}
+
+.issue_Change_Navigates .back {
+  width: 8.5rem;
+  height: 1.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 16px;
+  border: 1.5px solid gray;
+  cursor: pointer;
+  background-color: #213028bc;
+
+  &:hover {
+    background-color: #213028;
+  }
+}

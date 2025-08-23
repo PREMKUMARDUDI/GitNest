@@ -1,0 +1,152 @@
+.RepoUpdate_Container {
+  width: 100vw;
+  height: 100vh;
+  margin-top: 4rem;
+  padding-top: 1rem;
+  padding-inline: 17rem;
+
+  background-color: #0d1117;
+}
+
+.repo_Owner {
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.repo_Owner span {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.repo_Owner span ~ span {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.repo_Description {
+  margin-top: 0.5rem;
+}
+
+.repo_Description span {
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-right: 0.5rem;
+}
+
+.repo_Description input {
+  width: 35rem;
+  height: 1.75rem;
+  border-radius: 5px;
+  padding: 2px 6px;
+  border: 1.5px solid gray;
+  background-color: #0d1117;
+}
+
+.repo_Visibility {
+  width: 48rem;
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  margin-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1.5px solid rgba(128, 128, 128, 0.266);
+}
+
+.repo_Visibility > span {
+  font-weight: 500;
+}
+
+.public_Container {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.public_Container input {
+  cursor: pointer;
+}
+
+.public_Container .public {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.public div {
+  display: flex;
+  flex-direction: column;
+}
+
+.public div span {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.private_Container {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.private_Container input {
+  cursor: pointer;
+}
+
+.private_Container .private {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.private div {
+  display: flex;
+  flex-direction: column;
+}
+
+.private div span {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.repo_Change {
+  width: 25rem;
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.repo_Change .update_Repo {
+  height: 1.75rem;
+  width: 8.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #238636;
+  border: 1.5px solid #238636;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.repo_Change .cancel_update_Repo {
+  width: 8.5rem;
+  height: 1.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 16px;
+  border: 1.5px solid gray;
+  cursor: pointer;
+  background-color: #213028bc;
+
+  &:hover {
+    background-color: #213028;
+  }
+}

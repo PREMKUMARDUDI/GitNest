@@ -1,0 +1,271 @@
+.container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  margin-top: 4rem;
+}
+
+.leftContainer {
+  flex: 0.24;
+  background-color: rgb(13, 17, 23);
+  padding-inline-start: 1.5rem;
+  padding-bottom: 2rem;
+  border-right: 1px solid gray;
+}
+
+.leftContainer_Top {
+  display: flex;
+  height: 3.1rem;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline-end: 1.1rem;
+  margin-top: 0.85rem;
+}
+
+.leftContainer .newRepo_Btn {
+  background-color: rgba(35, 134, 55, 0.9);
+  padding-inline: 0.5rem;
+  border-radius: 8px;
+  height: 1.9rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+  cursor: pointer;
+  border: 0.5px solid rgba(128, 128, 128, 0.256);
+
+  &:hover {
+    background-color: rgb(35, 134, 55);
+  }
+}
+
+.leftContainer .search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16.7rem;
+  height: 2rem;
+  border-radius: 8px;
+  border: 1px solid gray;
+  margin-bottom: 0.75rem;
+  background-color: rgba(13, 17, 23, 0.032);
+  border: 1px solid rgba(128, 128, 128, 0.516);
+
+  &:hover {
+    border: 1px solid gray;
+    background-color: rgba(13, 17, 23, 0.192);
+  }
+
+  &:focus-within {
+    border: 1px solid gray;
+    background-color: rgba(13, 17, 23, 0.192);
+  }
+}
+
+.search svg {
+  width: 1.3rem;
+  height: 1.3rem;
+  color: white;
+  position: relative;
+  left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.search input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  padding-left: 0.5rem;
+  color: white;
+  background-color: transparent;
+  margin-right: 0.5rem;
+}
+
+.leftContainer .searchResult_item {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.25rem;
+}
+
+.leftContainer .searchResult_item a {
+  color: white;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.leftContainer .searchResult_item img {
+  width: 16px;
+  height: 16px;
+  margin-top: 0.12rem;
+}
+
+.border_for_separation {
+  width: 16.5rem;
+  height: 1px;
+  border-top: 1px solid rgba(128, 128, 128, 0.75);
+  margin-top: 1.5rem;
+}
+
+.leftSuggestionContainer_Top {
+  display: flex;
+  height: 3.1rem;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline-end: 1.1rem;
+  margin-top: 0.25rem;
+}
+
+.leftContainer .suggestedRepo_Search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16.7rem;
+  height: 2rem;
+  border-radius: 8px;
+  border: 1px solid gray;
+  margin-bottom: 0.75rem;
+  background-color: rgba(13, 17, 23, 0.032);
+  border: 1px solid rgba(128, 128, 128, 0.516);
+
+  &:hover {
+    border: 1px solid gray;
+    background-color: rgba(13, 17, 23, 0.192);
+  }
+
+  &:focus-within {
+    border: 1px solid gray;
+    background-color: rgba(13, 17, 23, 0.192);
+  }
+}
+
+.suggestedRepo_Search svg {
+  width: 1.3rem;
+  height: 1.3rem;
+  color: white;
+  position: relative;
+  left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.suggestedRepo_Search input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  padding-left: 0.5rem;
+  color: white;
+  background-color: transparent;
+  margin-right: 0.5rem;
+}
+
+.leftContainer .suggestedSearchResult_item {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.25rem;
+}
+
+.leftContainer .suggestedSearchResult_item a {
+  color: white;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.leftContainer .suggestedSearchResult_item img {
+  width: 16px;
+  height: 16px;
+  margin-top: 0.12rem;
+}
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  flex: 0.46;
+  background-color: #0d1117d8;
+  padding-inline-start: 1.95rem;
+  padding-bottom: 5rem;
+}
+
+.mainContainer .repoItem {
+  width: 32rem;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border: 1px solid gray;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.mainContainer .repoItem .name {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.mainContainer .repoItem .desc {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.mainContainer .repoItem .link {
+  padding-top: 1rem;
+  color: #646cff;
+  cursor: pointer;
+  font-weight: 500;
+
+  &:hover {
+    color: #535bf2;
+  }
+}
+
+.rightContainer {
+  flex: 0.3;
+  background-color: #0d1117d8;
+  padding-inline-start: 1.5rem;
+  padding-bottom: 2rem;
+}
+
+.rightContainer h3 {
+  font-size: 1.12rem;
+}
+
+.rightContainer .trending {
+  height: fit-content;
+  width: 18rem;
+  border: 1px solid gray;
+  border-radius: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.404);
+  padding-bottom: 0.5rem;
+}
+
+.rightContainer .trending h4 {
+  padding-inline-start: 1.45rem;
+}
+
+.rightContainer .trending ul {
+  list-style-type: disc;
+}
+
+.rightContainer .trending ul li {
+  padding-inline-start: 0.5rem;
+  padding-bottom: 0.75rem;
+}
+
+.rightContainer .trending ul li span {
+  font-size: 0.75rem;
+  color: silver;
+}
+.rightContainer .trending ul li span ~ span {
+  display: block;
+  font-size: 0.93rem;
+  color: white;
+}

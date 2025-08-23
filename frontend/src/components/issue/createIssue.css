@@ -1,0 +1,183 @@
+.createIssue_OuterContainer {
+  width: 100vw;
+  height: 100vh;
+  background-color: #0d1117;
+  position: relative;
+}
+
+.createIssue_Container {
+  width: 50.5rem;
+  height: 30.18rem;
+  border: 1.5px solid rgba(128, 128, 128, 0.519);
+  border-radius: 13px;
+  background-color: rgb(1, 1, 1);
+  position: absolute;
+  top: 6.5rem;
+  left: 14.8rem;
+}
+
+.createIssue_Top {
+  height: 3.2rem;
+  border-bottom: 1.5px solid rgba(128, 128, 128, 0.519);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline-start: 0.9rem;
+  padding-inline-end: 0.75rem;
+}
+
+.createIssue_Name {
+  font-weight: 600;
+}
+
+.createIssue_Collapse {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(128, 128, 128, 0.3);
+  cursor: pointer;
+
+  &:hover {
+    border: 1px solid gray;
+    background-color: rgb(70, 68, 68);
+  }
+}
+
+.createIssue_Body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-block: 0.75rem;
+  padding-inline-start: 1rem;
+  border-bottom: 1.25px solid rgba(128, 128, 128, 0.519);
+}
+
+.createIssue_Body .title_Container label span {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.createIssue_Body .title_Container label span span {
+  color: red;
+}
+
+.createIssue_Body .title_Container input {
+  width: 48rem;
+  height: 2rem;
+  border-radius: 5px;
+  padding: 2px 6px;
+  margin-top: 0.25rem;
+  margin-bottom: 0.35rem;
+  border: 1px solid rgba(128, 128, 128, 0.436);
+  background-color: #0d1117;
+  outline: none;
+
+  &:hover {
+    border: 1px solid rgb(128, 128, 128);
+  }
+
+  &:focus-within {
+    border: 1px solid rgb(128, 128, 128);
+  }
+}
+
+.createIssue_Body .description_Container {
+  display: flex;
+  flex-direction: column;
+}
+
+.createIssue_Body .description_Container label span {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.createIssue_Body .description_Container label span span {
+  color: red;
+}
+
+.createIssue_Body .description_Container label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.createIssue_Body .description_Container textarea {
+  width: 48rem;
+  height: 13.8rem;
+  border-radius: 6px;
+  padding: 0.75rem;
+  resize: none;
+  margin-top: 0.25rem;
+  margin-bottom: 0.35rem;
+  border: 1px solid rgba(128, 128, 128, 0.436);
+  background-color: #0d1117;
+  outline: none;
+
+  &:hover {
+    border: 1px solid rgb(128, 128, 128);
+  }
+
+  &:focus-within {
+    border: 1px solid rgb(128, 128, 128);
+  }
+}
+
+.createIssue_Btn {
+  height: 4rem;
+  margin: 0.5rem;
+  display: flex;
+
+  gap: 1rem;
+  padding-inline-end: 0.5rem;
+  border-radius: 8px;
+}
+
+.createIssue_Btn .left {
+  flex: 0.5;
+  padding-inline-start: 2rem;
+}
+.createIssue_Btn .right {
+  flex: 0.5;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 1rem;
+}
+
+.createIssue_Btn .cancel {
+  width: 4.5rem;
+  height: 2.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid rgba(128, 128, 128, 0.36);
+  cursor: pointer;
+  background-color: rgba(33, 40, 48, 0.812);
+
+  &:hover {
+    background-color: rgb(33, 40, 48);
+  }
+}
+
+.createIssue_Btn .create {
+  width: 7rem;
+  height: 2.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid rgba(128, 128, 128, 0.36);
+  cursor: pointer;
+  background-color: rgba(35, 134, 55, 0.9);
+
+  &:hover {
+    background-color: rgba(35, 134, 55);
+  }
+}
