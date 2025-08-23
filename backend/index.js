@@ -3,8 +3,6 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const http = require("http");
-const { Server } = require("socket.io");
 const mainRouter = require("./routes/main.router");
 
 const yargs = require("yargs");
@@ -86,26 +84,6 @@ async function startServer() {
     .catch((err) => {
       console.error("MongoDB connection error: ", err);
     });
-
-  let user = "testUser";
-
-  const httpServer = http.createServer(app);
-  const io = new Server(httpServer, {
-    cors: {
-      origin: "*",
-      methods: ["GET", "POST"],
-    },
-  });
-
-  io.on("connection", (socket) => {
-    socket.on("joinRoom", (userID) => {
-      const user = userID;
-      console.log("=============");
-      console.log(`User ${user} has joined the room`);
-      console.log("=============");
-      socket.join(user);
-    });
-  });
 
   const db = mongoose.connection;
 
