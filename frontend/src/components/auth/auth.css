@@ -30,7 +30,7 @@
 .login-box {
   padding: 20px 0px;
   width: 364px;
-  min-height: 290px;
+  min-height: 280px;
   border-radius: 10px;
   background-color: #161a23;
   display: flex;
@@ -41,7 +41,7 @@
 }
 
 .input {
-  width: 250px;
+  width: 230px;
   height: 35px;
   background-color: #0c1116;
   border-radius: 5px;
@@ -108,7 +108,7 @@
 }
 
 .login-btn {
-  width: 250px;
+  width: 237px;
 }
 
 .pass-box {
