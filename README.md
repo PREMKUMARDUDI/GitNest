@@ -20,7 +20,7 @@ Built with React, Node.js, MongoDB, Express—and features a powerful backend **
 
 ## ⚡️ Demo
 
-_(http://localhost:5173/)_
+_(https://main.dq1ol2kvxe1w3.amplifyapp.com/)_
 
 ---
 
