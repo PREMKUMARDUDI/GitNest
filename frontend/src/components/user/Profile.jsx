@@ -67,7 +67,7 @@ const Profile = () => {
           <div className="user-profile-section">
             <div className="profile-image">
               <img
-                src="copilot.png"
+                src="/copilot.png"
                 alt=""
                 width={"70%"}
                 style={{ borderRadius: "50%" }}
@@ -129,7 +129,7 @@ const Profile = () => {
             setCurrentUser(null);
             navigate("/auth");
           }}
-          style={{ position: "absolute", bottom: "50px", right: "50px" }}
+          style={{ position: "absolute", bottom: "50px", right: "70px" }}
           id="logout"
         >
           Logout
