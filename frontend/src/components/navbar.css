@@ -93,7 +93,6 @@ nav .menu-checkbox:checked ~ .left-menu {
   align-items: center;
   justify-content: space-between;
   padding-inline: 0.5rem;
-  padding-inline-end: 100px;
 }
 
 .left-menu-collapse {
@@ -105,6 +104,7 @@ nav .menu-checkbox:checked ~ .left-menu {
   align-items: center;
   background-color: rgb(48, 46, 46);
   cursor: pointer;
+  margin-right: 2rem;
 
   &:hover {
     border: 1px solid gray;
