@@ -7,13 +7,13 @@
 
 .createIssue_Container {
   width: 50.5rem;
-  height: 30.18rem;
+  height: 32.18rem;
   border: 1.5px solid rgba(128, 128, 128, 0.519);
   border-radius: 13px;
   background-color: rgb(1, 1, 1);
   position: absolute;
   top: 6.5rem;
-  left: 14.8rem;
+  left: 13.8rem;
 }
 
 .createIssue_Top {
