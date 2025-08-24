@@ -4,6 +4,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const mainRouter = require("./routes/main.router");
+const http = require("http");
 
 const yargs = require("yargs");
 const { hideBin } = require("yargs/helpers");
@@ -91,6 +92,8 @@ async function startServer() {
     console.log("CRUD operations called!");
     //CRUD operations can be called here
   });
+
+  const httpServer = http.createServer(app);
 
   httpServer.listen(port, () => {
     console.log(`Server is running on port ${port}`);
