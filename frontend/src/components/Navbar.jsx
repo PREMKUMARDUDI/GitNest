@@ -516,7 +516,7 @@ const Navbar = () => {
               <span>Your Profile</span>
             </div>
             <div className="right-menu-item">
-              <img src="/newRepo.png" alt="" />
+              <img src="/newRepo2.png" alt="" />
               <span>Your Repository</span>
             </div>
             <div className="right-menu-item">
@@ -532,7 +532,7 @@ const Navbar = () => {
               <span>Your Gists</span>
             </div>
             <div className="right-menu-item">
-              <img src="/newOrg.png" alt="" />
+              <img src="/newOrg2.png" alt="" />
               <span>Your Organizations</span>
             </div>
             <div className="right-menu-item">
