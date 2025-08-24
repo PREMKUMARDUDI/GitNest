@@ -93,7 +93,7 @@ nav .menu-checkbox:checked ~ .left-menu {
   align-items: center;
   justify-content: space-between;
   padding-inline: 0.5rem;
-  padding-inline-end: 5rem;
+  padding-inline-end: 100px;
 }
 
 .left-menu-collapse {
