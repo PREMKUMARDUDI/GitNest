@@ -227,7 +227,7 @@ svg {
 }
 
 .createNew {
-  width: 3.7rem;
+  width: 3.2rem;
   height: 2.1rem;
   padding-inline: 0.25rem;
   display: flex;
@@ -317,7 +317,7 @@ svg {
 }
 
 .issue {
-  width: 2rem;
+  width: 1.7rem;
   height: 2rem;
   padding-inline: 0.25rem;
   display: flex;
@@ -361,7 +361,7 @@ svg {
 }
 
 .pullRequests {
-  width: 2rem;
+  width: 1.7rem;
   height: 2rem;
   padding-inline: 0.25rem;
   display: flex;
@@ -403,7 +403,7 @@ svg {
 }
 
 .notification {
-  width: 2rem;
+  width: 1.7rem;
   height: 2rem;
   padding-inline: 0.25rem;
   display: flex;
@@ -450,7 +450,7 @@ svg {
 }
 
 .profileMenu {
-  width: 2.2rem;
+  width: 2rem;
   height: 2.5rem;
   padding-inline: 0.25rem;
   display: flex;
