@@ -7,13 +7,13 @@
 
 .newIssue_Container {
   width: 50.5rem;
-  height: 16.75rem;
+  height: 16.5rem;
   border: 1.5px solid rgba(128, 128, 128, 0.519);
   border-radius: 13px;
   background-color: rgb(1, 1, 1);
   position: absolute;
   top: 10rem;
-  left: 13rem;
+  left: 13.5rem;
 }
 
 .newIssue_Top {
