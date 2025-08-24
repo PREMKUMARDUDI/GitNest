@@ -477,7 +477,7 @@ svg {
 
 .right-menu {
   height: 100vh;
-  width: 288px;
+  width: 287px;
   padding: 1rem;
   position: fixed;
   top: 0;
@@ -568,7 +568,7 @@ nav .profile-checkbox:checked nav {
 }
 
 .right-menu-item {
-  width: 90%;
+  width: 93%;
   height: 2rem;
   display: flex;
   align-items: center;
