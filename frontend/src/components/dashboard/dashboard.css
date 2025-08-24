@@ -195,7 +195,7 @@
 }
 
 .mainContainer .repoItem {
-  width: 28rem;
+  width: 30rem;
   height: fit-content;
   display: flex;
   flex-direction: column;
