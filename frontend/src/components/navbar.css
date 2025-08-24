@@ -77,7 +77,6 @@ nav .menu-checkbox {
   transition: all 0.5s ease-in-out;
   border-right: 1px solid gray;
   border-radius: 0 13px 13px 0;
-  border-bottom-right-radius: 13px;
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -478,7 +477,7 @@ svg {
 
 .right-menu {
   height: 100vh;
-  width: 320px;
+  width: 290px;
   padding: 1rem;
   position: fixed;
   top: 0;
