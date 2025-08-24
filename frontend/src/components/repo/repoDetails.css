@@ -18,7 +18,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 0.2rem;
+  height: 0.25rem;
   width: 3.5rem;
   border: 1px solid gray;
   border-radius: 16px;
@@ -103,7 +103,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 0.2rem;
+  height: 0.18rem;
   width: 8.25rem;
   color: #238636;
   border: 1.5px solid #238636;
@@ -123,7 +123,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 0.2rem;
+  height: 0.18rem;
   width: 8.25rem;
   color: red;
   border: 1.5px solid red;
