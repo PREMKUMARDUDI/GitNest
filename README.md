@@ -42,7 +42,7 @@ _(https://main.dq1ol2kvxe1w3.amplifyapp.com/)_
 - `GET /repo/:repoId` — Get repository by ID
 - `PUT /repo/update/:repoId` — Update a repository
 - `DELETE /repo/delete/:repoId` — Delete a repository (also deletes its issues)
-- `POST /issue/create/:repoID` — Create an issue
+- `POST /issue/create/:repoID` — Create an issue for a repository
 - `GET /issue/:id` — Get a single issue by ID
 - `GET /issue/all/:repoID` — List all issues for a repository
 - `PUT /issue/update/:id` — Update an issue
