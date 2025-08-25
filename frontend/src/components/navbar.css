@@ -76,7 +76,7 @@ nav .menu-checkbox {
   z-index: 3;
   transition: all 0.5s ease-in-out;
   border-right: 1px solid gray;
-  border-radius: 0 13px 13px 0;
+  border-radius: 0 13px 13px 0 !important;
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -486,7 +486,7 @@ svg {
   z-index: 3;
   transition: all 0.5s ease-in-out;
   border-left: 1px solid gray;
-  border-radius: 13px 0 0 13px;
+  border-radius: 13px 0 0 13px !important;
   display: flex;
   flex-direction: column;
   gap: 0.7rem;
