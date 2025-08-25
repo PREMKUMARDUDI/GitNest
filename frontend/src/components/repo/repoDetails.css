@@ -4,7 +4,7 @@
   margin-top: 4rem;
   padding-top: 1rem;
   padding-inline-start: 17rem;
-  padding-inline-end: 25rem;
+  padding-inline-end: 17rem;
   background-color: #0d1117;
 }
 
@@ -42,6 +42,7 @@
 
 .repo_Description {
   margin-top: 0.5rem;
+  overflow-wrap: break-word;
 }
 
 .repo_Description span {
