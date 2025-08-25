@@ -42,6 +42,7 @@
 }
 
 .issue_Description {
+  width: 500px;
   margin-top: 1.5rem;
   overflow-wrap: break-word;
 }
