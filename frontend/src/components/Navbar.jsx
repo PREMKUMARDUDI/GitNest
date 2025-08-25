@@ -515,13 +515,9 @@ const Navbar = () => {
               <img src="/profile.png" alt="" />
               <span>Your Profile</span>
             </div>
-            {/* <div className="right-menu-item">
-              <img src="/newRepo2.png" alt="" />
-              <span>Your Repositories</span>
-            </div> */}
             <div className="right-menu-item">
               <img src="/newProject.png" alt="" />
-              <span>Your Project</span>
+              <span>Your Projects</span>
             </div>
             <div className="right-menu-item">
               <img src="/star.png" alt="" />
