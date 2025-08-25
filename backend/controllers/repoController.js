@@ -121,7 +121,7 @@ const fetchRepositoriesForCurrentUser = async (req, res) => {
 
 const updateRepositoryById = async (req, res) => {
   const { id } = req.params;
-  const { content, description, visibility } = req.body;
+  const { name, content, description, visibility } = req.body;
 
   try {
     const repository = await Repository.findById(id);
@@ -130,6 +130,7 @@ const updateRepositoryById = async (req, res) => {
       return res.status(404).send("Repository not found!");
     }
 
+    if (name) repository.name = name;
     if (content) repository.content.push(content);
     if (description) repository.description = description;
     if (visibility !== undefined) {
