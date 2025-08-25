@@ -130,7 +130,6 @@ const updateRepositoryById = async (req, res) => {
       return res.status(404).send("Repository not found!");
     }
 
-    if (name) repository.name = name;
     if (content) repository.content.push(content);
     if (description) repository.description = description;
     if (visibility !== undefined) {
