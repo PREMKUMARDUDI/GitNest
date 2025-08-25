@@ -41,7 +41,7 @@ _(https://main.dq1ol2kvxe1w3.amplifyapp.com/)_
 - `POST /repo/create` — Create a repository
 - `GET /repo/:repoId` — Get repository by ID
 - `PUT /repo/update/:repoId` — Update a repository
-- `DELETE /repo/delete/:repoId` — Delete a repository (also deletes its issues if backend cascade is implemented)
+- `DELETE /repo/delete/:repoId` — Delete a repository (also deletes its issues)
 - `POST /issue/create/:repoID` — Create an issue
 - `GET /issue/:id` — Get a single issue by ID
 - `GET /issue/all/:repoID` — List all issues for a repository
