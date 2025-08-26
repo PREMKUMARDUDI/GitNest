@@ -22,8 +22,9 @@ Built with React, Node.js, MongoDB, Express—and features a powerful backend **
 
 ```
 ┌─────────────────┐    HTTP/REST API    ┌─────────────────┐
-│   Frontend      │ ◄──────────────────►│   Backend       │
-│   (React 19)    │    (Axios Client)   │   (Node.js)     │
+│   Frontend      │ ◄──────────────────►│    Backend      │
+│  (React 19)     │    (Axios Client)   │   (Node.js)     │
+│   Dashboard     │                     │    REST API     │
 └─────────────────┘                     └─────────────────┘
         │                                        │
         │                                        │
