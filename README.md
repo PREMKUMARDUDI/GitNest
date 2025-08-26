@@ -110,18 +110,37 @@ GitNest/
 
 ## 📄 API Endpoints
 
+### Authentication
+
+- `POST /signup` - User registration with profile creation
+- `POST /login` - User authentication with JWT token generation
+
+### Profile Management
+
+- `GET /userProfile/:id` - Fetch user and profile data by ID
+- `GET /allUsers` - Fetch all users
+- `PUT /updateProfile/:id` - Update user information by ID
+- `DELETE /deleteProfile/:id` - Delete user by ID
+
+### Repository Management
+
 - `POST /repo/create` — Create a repository
-- `GET /repo/:repoId` — Get repository by ID
-- `PUT /repo/update/:repoId` — Update a repository
-- `DELETE /repo/delete/:repoId` — Delete a repository (also deletes its issues)
+- `GET /repo/all` — Get all repositories
+- `GET /repo/:id` — Get repository by ID
+- `GET /repo/name/:name` — Get repository by Username
+- `GET /repo/user/:userID` — Get repository by userID
+- `PUT /repo/update/:id` — Update a repository by ID
+- `PATCH /repo/toggle/:id` — Update visibility for repository by ID
+- `DELETE /repo/delete/:id` — Delete a repository by ID (also deletes its issues)
+
+### Issue Management
+
 - `POST /issue/create/:repoID` — Create an issue for a repository
 - `GET /issue/:id` — Get a single issue by ID
 - `GET /issue/all/:repoID` — List all issues for a repository
-- `PUT /issue/update/:id` — Update an issue
-- `DELETE /issue/delete/:id` — Delete a single issue
+- `PUT /issue/update/:id` — Update an issue by ID
+- `DELETE /issue/delete/:id` — Delete a single issue by ID
 - `DELETE /issue/delete/all/:repoID` — Delete all issues for a repository
-
----
 
 ## 🖥 Custom Git-like CLI Commands
 
@@ -162,8 +181,6 @@ node index.js revert <commitID> # revert to an earlier commit by ID
   Downloads all commit folders/files from S3 to local `.apnaGit/commits`.
 - **revert:**  
   Restores repository state from S3 for a specific commit.
-
----
 
 ## 👩‍💻 Author
 
