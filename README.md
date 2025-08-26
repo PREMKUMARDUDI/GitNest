@@ -108,7 +108,7 @@ GitNest/
 └──README.md
 ```
 
-## 📄 API Endpoints
+## 🔌 API Endpoints
 
 ### Authentication
 
