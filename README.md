@@ -184,11 +184,18 @@ node index.js revert <commitID> # revert to an earlier commit by ID
 
 ## 👩‍💻 Author
 
-- [PREM KUMAR DUDI](https://github.com/PREMKUMARDUDI)
+**Prem Kumar Dudi**
 
----
+- GitHub: [@PREMKUMARDUDI](https://github.com/PREMKUMARDUDI)
+- LinkedIn: [Connect with me](https://linkedin.com/in/dudipremkumar)
 
 ## 🙏 Acknowledgments
 
 - Inspired by [GitHub](https://github.com)
 - Thanks to open-source libraries and community
+
+---
+
+⭐ **Star this repository if you found it helpful!**
+
+_Built with ❤️ for the open-source community_
