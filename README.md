@@ -16,6 +16,46 @@ Built with React, Node.js, MongoDB, Express—and features a powerful backend **
 - **Custom Git Commands:** Work with repositories using `init`, `add`, `commit`, `push`, `pull`, and `revert`—integrated into the backend with
   `local storage` and `AWS S3` support.
 
+  ### 🖥 Custom Git-like CLI Commands
+
+The backend contains a _miniature git-like engine_ for local (server-side) repository simulation and `AWS S3` backup.  
+Commands are powered by [yargs](https://github.com/yargs/yargs), available when running Node directly.
+
+#### **Available Commands**
+
+- `start` — Starts the backend web server.
+- `init` — **Initializes a new local repository** in `.apnaGit` in the current working directory and stores bucket info in `config.json`.
+- `add <file>` — **Adds a file to the staging area** (copies your file into `.apnaGit/staging`).
+- `commit <message>` — **Commits all staged files** to a new commit directory with a unique ID under `.apnaGit/commits`, and stores a commit message and timestamp.
+- `push` — **Pushes all local commits** (files + commit metadata) to `AWS S3`, using the structure `commits/COMMIT_ID/`.
+- `pull` — **Pulls all commits from AWS S3**, reconstructing directories and files into local `.apnaGit`.
+- `revert <commitID>` — **Restores your repository state to a specific commit** by pulling from `AWS S3`.
+
+#### **How to use**
+
+From the backend directory, run:
+node index.js init # create a new local repo (.apnaGit)
+node index.js add path/to/file.txt # stage a file
+node index.js commit "my commit" # commit staged files with a message
+node index.js push # push all commits to S3
+node index.js pull # sync local commits with S3
+node index.js revert <commitID> # revert to an earlier commit by ID
+
+#### **Command Descriptions**
+
+- **init:**  
+  Creates a `.apnaGit` directory, a `commits` subdir for your version history, and configures S3 bucket settings.
+- **add:**  
+  Stages any file into `.apnaGit/staging` for commit.
+- **commit:**  
+  Saves all staged files into a unique commit folder, and logs the commit message and date as `commit.json`.
+- **push:**  
+  Uploads all commit folders/files to your S3 bucket.
+- **pull:**  
+  Downloads all commit folders/files from S3 to local `.apnaGit/commits`.
+- **revert:**  
+  Restores repository state from S3 for a specific commit.
+
 ## 🏗️ Architecture
 
 ### System Design
@@ -181,46 +221,6 @@ GitNest/
   repository: Schema.Types.ObjectId (ref: "Repository"),
 }
 ```
-
-## 🖥 Custom Git-like CLI Commands
-
-The backend contains a _miniature git-like engine_ for local (server-side) repository simulation and `AWS S3` backup.  
-Commands are powered by [yargs](https://github.com/yargs/yargs), available when running Node directly.
-
-### **Available Commands**
-
-- `start` — Starts the backend web server.
-- `init` — **Initializes a new local repository** in `.apnaGit` in the current working directory and stores bucket info in `config.json`.
-- `add <file>` — **Adds a file to the staging area** (copies your file into `.apnaGit/staging`).
-- `commit <message>` — **Commits all staged files** to a new commit directory with a unique ID under `.apnaGit/commits`, and stores a commit message and timestamp.
-- `push` — **Pushes all local commits** (files + commit metadata) to `AWS S3`, using the structure `commits/COMMIT_ID/`.
-- `pull` — **Pulls all commits from AWS S3**, reconstructing directories and files into local `.apnaGit`.
-- `revert <commitID>` — **Restores your repository state to a specific commit** by pulling from `AWS S3`.
-
-### **How to use**
-
-From the backend directory, run:
-node index.js init # create a new local repo (.apnaGit)
-node index.js add path/to/file.txt # stage a file
-node index.js commit "my commit" # commit staged files with a message
-node index.js push # push all commits to S3
-node index.js pull # sync local commits with S3
-node index.js revert <commitID> # revert to an earlier commit by ID
-
-#### **Command Descriptions**
-
-- **init:**  
-  Creates a `.apnaGit` directory, a `commits` subdir for your version history, and configures S3 bucket settings.
-- **add:**  
-  Stages any file into `.apnaGit/staging` for commit.
-- **commit:**  
-  Saves all staged files into a unique commit folder, and logs the commit message and date as `commit.json`.
-- **push:**  
-  Uploads all commit folders/files to your S3 bucket.
-- **pull:**  
-  Downloads all commit folders/files from S3 to local `.apnaGit/commits`.
-- **revert:**  
-  Restores repository state from S3 for a specific commit.
 
 ## 🌐 Deployment
 
