@@ -227,7 +227,7 @@ GitNest/
 The application's frontend is deployed on **AWS Amplify** with its backend deployed on **Render** platform:
 
 - **Frontend**: `https://main.dq1ol2kvxe1w3.amplifyapp.com/`
-- **Backend API**: `https://sailpoint-frontend.onrender.com`
+- **Backend API**: `https://gitnest-sh8l.onrender.com`
 
 ### Deployment Configuration
 
