@@ -143,6 +143,45 @@ GitNest/
 - `DELETE /issue/delete/:id` — Delete a single issue by ID
 - `DELETE /issue/delete/all/:repoID` — Delete all issues for a repository
 
+## 📊 Database Schema
+
+### User Model
+
+```javascript
+{
+  username: String (required, unique),
+  email: String (required, unique),
+  password: String (required, hashed),
+  repositories: [Schema.Types.ObjectId (ref: "Repository")],
+  followedUsers: [Schema.Types.ObjectId (ref: "User")],
+  starRepos: [Schema.Types.ObjectId (ref: "Repository")]
+}
+```
+
+### Repository Model
+
+```javascript
+{
+  name: String (required),
+  description: String,
+  content: [],
+  visibility: Boolean,
+  owner: Schema.Types.ObjectId (ref: "User"),
+  issue: Schema.Types.ObjectID (ref: "Issue")
+}
+```
+
+### Issue Model
+
+```javascript
+{
+  title: String (required),
+  description: String (required),
+  status: String (enum: ["open", "closed"],),
+  repository: Schema.Types.ObjectId (ref: "Repository"),
+}
+```
+
 ## 🖥 Custom Git-like CLI Commands
 
 The backend contains a _miniature git-like engine_ for local (server-side) repository simulation and `AWS S3` backup.  
@@ -182,6 +221,35 @@ node index.js revert <commitID> # revert to an earlier commit by ID
   Downloads all commit folders/files from S3 to local `.apnaGit/commits`.
 - **revert:**  
   Restores repository state from S3 for a specific commit.
+
+## 🌐 Deployment
+
+The application's frontend is deployed on **AWS Amplify** with its backend deployed on **Render** platform:
+
+- **Backend API**: `https://main.dq1ol2kvxe1w3.amplifyapp.com/`
+- **Frontend**: `https://sailpoint-frontend.onrender.com`
+
+### Deployment Configuration
+
+- **Platform**: AWS Amplify & Render
+- **Build Process**: Automatic deployment from GitHub
+- **Environment**: Production-ready with environment variables
+- **CORS**: Configured for cross-origin requests between services
+
+## 🧪 Testing & Quality
+
+### Code Quality
+
+- **Error Handling**: Comprehensive try-catch blocks and error middleware
+- **Input Validation**: Server-side validation for all user inputs
+- **Security**: JWT authentication, password hashing, CORS configuration
+- **Code Structure**: Modular design with separation of concerns
+
+### Performance Optimizations
+
+- **Database**: Indexed queries for improved performance
+- **Caching**: Strategic use of React Context for state management
+- **Bundle Size**: Optimized dependencies and code splitting
 
 ## 👩‍💻 Author
 
