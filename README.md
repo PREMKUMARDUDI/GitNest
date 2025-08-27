@@ -226,8 +226,8 @@ node index.js revert <commitID> # revert to an earlier commit by ID
 
 The application's frontend is deployed on **AWS Amplify** with its backend deployed on **Render** platform:
 
-- **Backend API**: `https://main.dq1ol2kvxe1w3.amplifyapp.com/`
-- **Frontend**: `https://sailpoint-frontend.onrender.com`
+- **Frontend**: `https://main.dq1ol2kvxe1w3.amplifyapp.com/`
+- **Backend API**: `https://sailpoint-frontend.onrender.com`
 
 ### Deployment Configuration
 
