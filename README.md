@@ -16,7 +16,7 @@ Built with React, Node.js, MongoDB, Express—and features a powerful backend **
 - **Custom Git Commands:** Work with repositories using `init`, `add`, `commit`, `push`, `pull`, and `revert`—integrated into the backend with
   `local storage` and `AWS S3` support.
 
-  ### 🖥 Custom Git-like CLI Commands
+### 🖥 Custom Git-like CLI Commands
 
 The backend contains a _miniature git-like engine_ for local (server-side) repository simulation and `AWS S3` backup.  
 Commands are powered by [yargs](https://github.com/yargs/yargs), available when running Node directly.
