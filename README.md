@@ -37,6 +37,7 @@ Commands are powered by [yargs](https://github.com/yargs/yargs), available when 
 From the backend directory, run:
 
 ```bash
+
 node index.js init                        # Interactive setup for a new local repo `.apnaGit`
 node index.js add path/to/file.txt        # Stage a file
 node index.js commit "Initial commit"     # Commit staged files with a message and author info
@@ -46,6 +47,7 @@ node index.js revert HEAD                 # Discard local changes (reset to late
 node index.js revert HEAD~1               # Go back to the previous commit
 node index.js revert <commitID>           # Rollback to an earlier commit by ID
 node index.js terminate                   # DANGER: Delete repo locally and on S3
+
 ```
 
 #### **Command Descriptions**
