@@ -67,6 +67,7 @@ node index.js terminate             # DANGER: Delete repo locally and on S3
   - **`<commitID>`**: Revert to a specific commit from the history.
 - **terminate:**
   A cleanup utility that performs a recursive delete on the local `.apnaGit` folder **and** iterates through the S3 bucket to delete all remote objects. **Use with caution.**
+
   ```
 
   ```
@@ -103,7 +104,7 @@ node index.js terminate             # DANGER: Delete repo locally and on S3
 
 ## 📁 Project Structure
 
-```
+```bash
 
 GitNest/
 ├── backend/ # Node.js Express Server
