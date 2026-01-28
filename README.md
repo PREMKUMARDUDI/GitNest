@@ -37,15 +37,15 @@ Commands are powered by [yargs](https://github.com/yargs/yargs), available when 
 From the backend directory, run:
 
 ```bash
-node index.js init                  # Interactive setup for a new local repo `.apnaGit` (asks for Name/Email/Bucket)
-node index.js add path/to/file.txt  # Stage a file
-node index.js commit "Initial commit" # Commit staged files with a message and author info
-node index.js push                  # Push all commits to AWS S3
-node index.js pull                  # Sync local commits with AWS S3 and update working files
-node index.js revert HEAD           # Discard local changes (reset to latest commit)
-node index.js revert HEAD~1         # Go back to the previous commit
-node index.js revert <commitID>     # Rollback to an earlier commit by ID
-node index.js terminate             # DANGER: Delete repo locally and on S3
+node index.js init                        # Interactive setup for a new local repo `.apnaGit` (asks for Name/Email/Bucket)
+node index.js add path/to/file.txt        # Stage a file
+node index.js commit "Initial commit"     # Commit staged files with a message and author info
+node index.js push                        # Push all commits to AWS S3
+node index.js pull                        # Sync local commits with AWS S3 and update working files
+node index.js revert HEAD                 # Discard local changes (reset to latest commit)
+node index.js revert HEAD~1               # Go back to the previous commit
+node index.js revert <commitID>           # Rollback to an earlier commit by ID
+node index.js terminate                   # DANGER: Delete repo locally and on S3
 ```
 
 #### **Command Descriptions**
@@ -107,64 +107,64 @@ node index.js terminate             # DANGER: Delete repo locally and on S3
 ```bash
 
 GitNest/
-├── backend/ # Node.js Express Server
-│ ├── config/ # Database and environment configurations
-│ ├── controllers/ # Business logic handlers
-│ │ ├── init.js # Repository initialization
-│ │ ├── add.js # File staging operations
-│ │ ├── commit.js # Commit management
-│ │ ├── push.js # Cloud synchronization
-│ │ ├── pull.js # Remote updates
-│ │ └── revert.js # Version rollback
-│ │ └── issueController.js # Controllers for Issue
-│ │ └── repoController.js # Controllers for Repository
-│ │ └── userController.js # Controllers for User
-│ ├── models/ # Database schemas
-│ │ ├── userModel.js # User authentication model
-│ │ ├── repoModel.js # Repository data structure
-│ │ └── issueModel.js # Issue tracking system
-│ ├── routes/ # API endpoint definitions
-│ │ └── main.router.js # Central routing configuration
-│ ├── index.js # Server entry point with CLI
-│ ├── package.json # Backend dependencies
-│ └── .gitignore # Git ignore rules
+├── backend/                    # Node.js Express Server
+│ ├── config/                   # Database and environment configurations
+│ ├── controllers/              # Business logic handlers
+│ │ ├── init.js                 # Repository initialization
+│ │ ├── add.js                  # File staging operations
+│ │ ├── commit.js               # Commit management
+│ │ ├── push.js                 # Cloud synchronization
+│ │ ├── pull.js                 # Remote updates
+│ │ └── revert.js               # Version rollback
+│ │ └── issueController.js      # Controllers for Issue
+│ │ └── repoController.js       # Controllers for Repository
+│ │ └── userController.js       # Controllers for User
+│ ├── models/                   # Database schemas
+│ │ ├── userModel.js            # User authentication model
+│ │ ├── repoModel.js            # Repository data structure
+│ │ └── issueModel.js           # Issue tracking system
+│ ├── routes/                   # API endpoint definitions
+│ │ └── main.router.js          # Central routing configuration
+│ ├── index.js                  # Server entry point with CLI
+│ ├── package.json              # Backend dependencies
+│ └── .gitignore                # Git ignore rules
 │
-│── frontend/ # React Application
-│ ├── public/ # Static assets
-│ │ └── index.html # HTML template
-│ ├── src/ # Source code
-│ │ ├── components/ # Reusable UI components
-│ │ │ ├── auth/ # Authentication components
-│ │ │ │ ├── Login.jsx # User login interface
-│ │ │ │ ├── Signup.jsx # User registration
-│ │ │ │ └── auth.css # Authentication styles
-│ │ │ ├── repo/ # Repository management
-│ │ │ │ ├── CreateRepo.jsx # Repository creation
-│ │ │ │ ├── DeleteRepo.jsx # Repository deletion
-│ │ │ │ ├── RepoDetails.jsx # Repository details
-│ │ │ │ └── UpdateRepo.jsx # Repository updates
-│ │ │ │ └── auth.css # Authentication styles
-│ │ │ ├── issue/ # Issue management
-│ │ │ │ ├── CreateIssue.jsx # Issue creation
-│ │ │ │ ├── DeleteIssue.jsx # Issue deletion
-│ │ │ │ ├── IssueDetails.jsx # Issue details
-│ │ │ │ └── UpdateIssue.jsx # Issue updates
-│ │ │ ├── dashboard/ # Main dashboard
-│ │ │ │ ├── Dashboard.jsx # User dashboard
-│ │ │ │ └── dashboard.css # Dashboard styles
-│ │ │ ├── user/ # User management
-│ │ │ ├── Navbar.jsx # Navigation component
-│ │ │ └── NotFound.jsx # 404 error page
-│ │ ├── assets/ # Static resources
-│ │ ├── Routes.jsx # Application routing
-│ │ ├── authContext.jsx # Authentication context
-│ │ ├── serverConfig.jsx # Backend Server configuration
-│ │ ├── main.jsx # React entry point
-│ │ └── index.css # Global styles
-│ ├── vite.config.js # Vite build configuration
-│ ├── eslint.config.js # ESLint configuration
-│ ├── package.json # Frontend dependencies
-│ └── .gitignore # Git ignore rules
+│── frontend/                   # React Application
+│ ├── public/                   # Static assets
+│ │ └── index.html              # HTML template
+│ ├── src/                      # Source code
+│ │ ├── components/             # Reusable UI components
+│ │ │ ├── auth/                 # Authentication components
+│ │ │ │ ├── Login.jsx           # User login interface
+│ │ │ │ ├── Signup.jsx          # User registration
+│ │ │ │ └── auth.css            # Authentication styles
+│ │ │ ├── repo/                 # Repository management
+│ │ │ │ ├── CreateRepo.jsx      # Repository creation
+│ │ │ │ ├── DeleteRepo.jsx      # Repository deletion
+│ │ │ │ ├── RepoDetails.jsx     # Repository details
+│ │ │ │ └── UpdateRepo.jsx      # Repository updates
+│ │ │ │ └── auth.css            # Authentication styles
+│ │ │ ├── issue/                # Issue management
+│ │ │ │ ├── CreateIssue.jsx     # Issue creation
+│ │ │ │ ├── DeleteIssue.jsx     # Issue deletion
+│ │ │ │ ├── IssueDetails.jsx    # Issue details
+│ │ │ │ └── UpdateIssue.jsx     # Issue updates
+│ │ │ ├── dashboard/            # Main dashboard
+│ │ │ │ ├── Dashboard.jsx       # User dashboard
+│ │ │ │ └── dashboard.css       # Dashboard styles
+│ │ │ ├── user/                 # User management
+│ │ │ ├── Navbar.jsx            # Navigation component
+│ │ │ └── NotFound.jsx          # 404 error page
+│ │ ├── assets/                 # Static resources
+│ │ ├── Routes.jsx              # Application routing
+│ │ ├── authContext.jsx         # Authentication context
+│ │ ├── serverConfig.jsx        # Backend Server configuration
+│ │ ├── main.jsx                # React entry point
+│ │ └── index.css               # Global styles
+│ ├── vite.config.js            # Vite build configuration
+│ ├── eslint.config.js          # ESLint configuration
+│ ├── package.json              # Frontend dependencies
+│ └── .gitignore                # Git ignore rules
 └──README.md
 
 ```
