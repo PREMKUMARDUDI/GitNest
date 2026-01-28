@@ -58,8 +58,8 @@ node index.js terminate                   # DANGER: Delete repo locally and on S
   Moves staged files to a unique commit folder. It reads `HEAD` to link to the parent commit (creating a history chain) and embeds the user identity from `config.json` into the commit metadata.
 - **push:**
   Uploads all commit folders and files to the configured S3 bucket and keeps local data intact, allowing for offline history viewing.
-  - **pull:**
-    Downloads all commits from S3 to local `.apnaGit/commits`. It then intelligently determines the latest commit based on timestamps, updates the `HEAD` pointer, and **automatically overwrites** the working directory files to match the latest state.
+- **pull:**
+  Downloads all commits from S3 to local `.apnaGit/commits`. It then intelligently determines the latest commit based on timestamps, updates the `HEAD` pointer, and **automatically overwrites** the working directory files to match the latest state.
 - **revert:**
   Restores the working directory to a specific state. Supports:
   - **`HEAD`**: Resets files to the latest commit (useful for discarding uncommitted changes).
