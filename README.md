@@ -18,60 +18,76 @@ Built with React, Node.js, MongoDB, Express—and features a powerful backend **
 
 ### 🖥 Custom Git-like CLI Commands
 
-The backend contains a _miniature git-like engine_ for local (server-side) repository simulation and `AWS S3` backup.  
+The backend contains a _miniature git-like engine_ for local (server-side) repository simulation and `AWS S3` backup. It supports **user identity tracking** and **distributed version control** workflows (similar to real Git).
 Commands are powered by [yargs](https://github.com/yargs/yargs), available when running Node directly.
 
 #### **Available Commands**
 
 - `start` — Starts the backend web server.
-- `init` — **Initializes a new local repository** in `.apnaGit` in the current working directory and stores bucket info in `config.json`.
+- `init` — **Initializes a new repository** and asks for your Name, Email, and S3 Bucket name to configure `.apnaGit/config.json`.
 - `add <file>` — **Adds a file to the staging area** (copies your file into `.apnaGit/staging`).
-- `commit <message>` — **Commits all staged files** to a new commit directory with a unique ID under `.apnaGit/commits`, and stores a commit message and timestamp.
-- `push` — **Pushes all local commits** (files + commit metadata) to `AWS S3`, using the structure `commits/COMMIT_ID/`.
-- `pull` — **Pulls all commits from AWS S3**, reconstructing directories and files into local `.apnaGit`.
-- `revert <commitID>` — **Restores your repository state to a specific commit** by pulling from `AWS S3`.
+- `commit <message>` — **Commits all staged files** to a new commit directory with a unique ID under `.apnaGit/commits` and Links the commit to the previous version (parent), stores a commit message and timestamp, and attaches the **Author** info from your config.
+- `push` — **Pushes commits to S3.** Uploads local history to `AWS S3`, using the structure `commits/COMMIT_ID/` while _preserving_ your local copies (Distributed VCS style).
+- `pull` — **Pulls all commits from AWS S3**, reconstructing directories and files into local `.apnaGit/commits`, finds the latest commit, updates `HEAD`, and **restores files to your working directory**.
+- `revert <commitID|HEAD>` — **Restores your repository state to a specific commit**, the latest commit (`HEAD`), or the previous one (`HEAD~1`) by pulling from `AWS S3`.
+- `terminate` — **Destructive Cleanup.** Permanently deletes the local `.apnaGit` repository AND wipes all associated data from the S3 bucket.
 
 #### **How to use**
 
 From the backend directory, run:
-node index.js init # create a new local repo (.apnaGit)
-node index.js add path/to/file.txt # stage a file
-node index.js commit "my commit" # commit staged files with a message
-node index.js push # push all commits to S3
-node index.js pull # sync local commits with S3
-node index.js revert <commitID> # revert to an earlier commit by ID
+
+```bash
+node index.js init                  # Interactive setup for a new local repo `.apnaGit` (asks for Name/Email/Bucket)
+node index.js add path/to/file.txt  # Stage a file
+node index.js commit "Initial commit" # Commit staged files with a message and author info
+node index.js push                  # Push all commits to AWS S3
+node index.js pull                  # Sync local commits with AWS S3 and update working files
+node index.js revert HEAD           # Discard local changes (reset to latest commit)
+node index.js revert HEAD~1         # Go back to the previous commit
+node index.js revert <commitID>     # Rollback to an earlier commit by ID
+node index.js terminate             # DANGER: Delete repo locally and on S3
+
+
 
 #### **Command Descriptions**
 
-- **init:**  
-  Creates a `.apnaGit` directory, a `commits` subdir for your version history, and configures S3 bucket settings.
-- **add:**  
-  Stages any file into `.apnaGit/staging` for commit.
-- **commit:**  
-  Saves all staged files into a unique commit folder, and logs the commit message and date as `commit.json`.
-- **push:**  
-  Uploads all commit folders/files to your S3 bucket.
-- **pull:**  
-  Downloads all commit folders/files from S3 to local `.apnaGit/commits`.
-- **revert:**  
-  Restores repository state from S3 for a specific commit.
+
+- **init:**
+  Creates `.apnaGit` structure and a `config.json` file. It prompts the user via the terminal to input their Name, Email, and preferred S3 Bucket to configure the repository.
+- **add:**
+  Stages a specific file into `.apnaGit/staging`, preparing it for the next commit.
+- **commit:**
+  Moves staged files to a unique commit folder. It reads `HEAD` to link to the parent commit (creating a history chain) and embeds the user identity from `config.json` into the commit metadata.
+- **push:**
+  Uploads all commit folders and files to the configured S3 bucket and keeps local data intact, allowing for offline history viewing.
+  - **pull:**
+  Downloads all commits from S3  to local `.apnaGit/commits`. It then intelligently determines the latest commit based on timestamps, updates the `HEAD` pointer, and **automatically overwrites** the working directory files to match the latest state.
+- **revert:**
+  Restores the working directory to a specific state. Supports:
+  - **`HEAD`**: Resets files to the latest commit (useful for discarding uncommitted changes).
+  - **`HEAD~1`**: Reverts to the commit immediately before the current one.
+  - **`<commitID>`**: Revert to a specific commit from the history.
+- **terminate:**
+  A cleanup utility that performs a recursive delete on the local `.apnaGit` folder **and** iterates through the S3 bucket to delete all remote objects. **Use with caution.**
 
 ## 🏗️ Architecture
 
 ### System Design
 
 ```
-┌─────────────────┐    HTTP/REST API    ┌─────────────────┐
-│   Frontend      │ ◄──────────────────►│    Backend      │
-│  (React 19)     │    (Axios Client)   │   (Node.js)     │
-│   Dashboard     │                     │    REST API     │
-└─────────────────┘                     └─────────────────┘
-        │                                        │
-        │                                        │
-   ┌────▼────┐                              ┌────▼────┐
-   │ Amplify │                              │ MongoDB │
-   │ Hosting │                              │Database │
-   └─────────┘                              └─────────┘
+
+┌─────────────────┐ HTTP/REST API ┌─────────────────┐
+│ Frontend │ ◄──────────────────►│ Backend │
+│ (React 19) │ (Axios Client) │ (Node.js) │
+│ Dashboard │ │ REST API │
+└─────────────────┘ └─────────────────┘
+│ │
+│ │
+┌────▼────┐ ┌────▼────┐
+│ Amplify │ │ MongoDB │
+│ Hosting │ │Database │
+└─────────┘ └─────────┘
+
 ```
 
 ## 🛠️ Tech Stack
@@ -87,67 +103,69 @@ node index.js revert <commitID> # revert to an earlier commit by ID
 ## 📁 Project Structure
 
 ```
+
 GitNest/
-├── backend/                            # Node.js Express Server
-│   ├── config/                         # Database and environment configurations
-│   ├── controllers/                    # Business logic handlers
-│   │   ├── init.js                     # Repository initialization
-│   │   ├── add.js                      # File staging operations
-│   │   ├── commit.js                   # Commit management
-│   │   ├── push.js                     # Cloud synchronization
-│   │   ├── pull.js                     # Remote updates
-│   │   └── revert.js                   # Version rollback
-│   │   └── issueController.js          # Controllers for Issue
-│   │   └── repoController.js           # Controllers for Repository
-│   │   └── userController.js           # Controllers for User
-│   ├── models/                         # Database schemas
-│   │   ├── userModel.js                # User authentication model
-│   │   ├── repoModel.js                # Repository data structure
-│   │   └── issueModel.js               # Issue tracking system
-│   ├── routes/                         # API endpoint definitions
-│   │   └── main.router.js              # Central routing configuration
-│   ├── index.js                        # Server entry point with CLI
-│   ├── package.json                    # Backend dependencies
-│   └── .gitignore                      # Git ignore rules
+├── backend/ # Node.js Express Server
+│ ├── config/ # Database and environment configurations
+│ ├── controllers/ # Business logic handlers
+│ │ ├── init.js # Repository initialization
+│ │ ├── add.js # File staging operations
+│ │ ├── commit.js # Commit management
+│ │ ├── push.js # Cloud synchronization
+│ │ ├── pull.js # Remote updates
+│ │ └── revert.js # Version rollback
+│ │ └── issueController.js # Controllers for Issue
+│ │ └── repoController.js # Controllers for Repository
+│ │ └── userController.js # Controllers for User
+│ ├── models/ # Database schemas
+│ │ ├── userModel.js # User authentication model
+│ │ ├── repoModel.js # Repository data structure
+│ │ └── issueModel.js # Issue tracking system
+│ ├── routes/ # API endpoint definitions
+│ │ └── main.router.js # Central routing configuration
+│ ├── index.js # Server entry point with CLI
+│ ├── package.json # Backend dependencies
+│ └── .gitignore # Git ignore rules
 │
-│── frontend/                           # React Application
-│   ├── public/                         # Static assets
-│   │   └── index.html                  # HTML template
-│   ├── src/                            # Source code
-│   │   ├── components/                 # Reusable UI components
-│   │   │   ├── auth/                   # Authentication components
-│   │   │   │   ├── Login.jsx           # User login interface
-│   │   │   │   ├── Signup.jsx          # User registration
-│   │   │   │   └── auth.css            # Authentication styles
-│   │   │   ├── repo/                   # Repository management
-│   │   │   │   ├── CreateRepo.jsx      # Repository creation
-│   │   │   │   ├── DeleteRepo.jsx      # Repository deletion
-│   │   │   │   ├── RepoDetails.jsx     # Repository details
-│   │   │   │   └── UpdateRepo.jsx      # Repository updates
-│   │   │   │   └── auth.css            # Authentication styles
-│   │   │   ├── issue/                  # Issue management
-│   │   │   │   ├── CreateIssue.jsx     # Issue creation
-│   │   │   │   ├── DeleteIssue.jsx     # Issue deletion
-│   │   │   │   ├── IssueDetails.jsx    # Issue details
-│   │   │   │   └── UpdateIssue.jsx     # Issue updates
-│   │   │   ├── dashboard/              # Main dashboard
-│   │   │   │   ├── Dashboard.jsx       # User dashboard
-│   │   │   │   └── dashboard.css       # Dashboard styles
-│   │   │   ├── user/                   # User management
-│   │   │   ├── Navbar.jsx              # Navigation component
-│   │   │   └── NotFound.jsx            # 404 error page
-│   │   ├── assets/                     # Static resources
-│   │   ├── Routes.jsx                  # Application routing
-│   │   ├── authContext.jsx             # Authentication context
-│   │   ├── serverConfig.jsx            # Backend Server configuration
-│   │   ├── main.jsx                    # React entry point
-│   │   └── index.css                   # Global styles
-│   ├── vite.config.js                  # Vite build configuration
-│   ├── eslint.config.js                # ESLint configuration
-│   ├── package.json                    # Frontend dependencies
-│   └── .gitignore                      # Git ignore rules
+│── frontend/ # React Application
+│ ├── public/ # Static assets
+│ │ └── index.html # HTML template
+│ ├── src/ # Source code
+│ │ ├── components/ # Reusable UI components
+│ │ │ ├── auth/ # Authentication components
+│ │ │ │ ├── Login.jsx # User login interface
+│ │ │ │ ├── Signup.jsx # User registration
+│ │ │ │ └── auth.css # Authentication styles
+│ │ │ ├── repo/ # Repository management
+│ │ │ │ ├── CreateRepo.jsx # Repository creation
+│ │ │ │ ├── DeleteRepo.jsx # Repository deletion
+│ │ │ │ ├── RepoDetails.jsx # Repository details
+│ │ │ │ └── UpdateRepo.jsx # Repository updates
+│ │ │ │ └── auth.css # Authentication styles
+│ │ │ ├── issue/ # Issue management
+│ │ │ │ ├── CreateIssue.jsx # Issue creation
+│ │ │ │ ├── DeleteIssue.jsx # Issue deletion
+│ │ │ │ ├── IssueDetails.jsx # Issue details
+│ │ │ │ └── UpdateIssue.jsx # Issue updates
+│ │ │ ├── dashboard/ # Main dashboard
+│ │ │ │ ├── Dashboard.jsx # User dashboard
+│ │ │ │ └── dashboard.css # Dashboard styles
+│ │ │ ├── user/ # User management
+│ │ │ ├── Navbar.jsx # Navigation component
+│ │ │ └── NotFound.jsx # 404 error page
+│ │ ├── assets/ # Static resources
+│ │ ├── Routes.jsx # Application routing
+│ │ ├── authContext.jsx # Authentication context
+│ │ ├── serverConfig.jsx # Backend Server configuration
+│ │ ├── main.jsx # React entry point
+│ │ └── index.css # Global styles
+│ ├── vite.config.js # Vite build configuration
+│ ├── eslint.config.js # ESLint configuration
+│ ├── package.json # Frontend dependencies
+│ └── .gitignore # Git ignore rules
 └──README.md
-```
+
+````
 
 ## 🔌 API Endpoints
 
@@ -196,7 +214,7 @@ GitNest/
   followedUsers: [Schema.Types.ObjectId (ref: "User")],
   starRepos: [Schema.Types.ObjectId (ref: "Repository")]
 }
-```
+````
 
 ### Repository Model
 

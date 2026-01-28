@@ -10,6 +10,6 @@ AWS.config.update({
 
 const s3 = new AWS.S3();
 
-const S3_BUCKET = "github-clone-bucket";
+const S3_BUCKET = process.env.S3_BUCKET;
 
 module.exports = { s3, S3_BUCKET };

@@ -15,6 +15,7 @@ const { commitRepo } = require("./controllers/commit");
 const { pushRepo } = require("./controllers/push");
 const { pullRepo } = require("./controllers/pull");
 const { revertRepo } = require("./controllers/revert");
+const { terminateRepo } = require("./controllers/terminate");
 
 dotenv.config();
 
@@ -32,7 +33,7 @@ yargs(hideBin(process.argv))
     },
     (argv) => {
       addRepo(argv.file);
-    }
+    },
   )
   .command(
     "commit <message>",
@@ -45,7 +46,7 @@ yargs(hideBin(process.argv))
     },
     (argv) => {
       commitRepo(argv.message);
-    }
+    },
   )
   .command("push", "Push commits to S3", {}, pushRepo)
   .command("pull", "Pull commits from S3", {}, pullRepo)
@@ -60,7 +61,13 @@ yargs(hideBin(process.argv))
     },
     (argv) => {
       revertRepo(argv.commitID);
-    }
+    },
+  )
+  .command(
+    "terminate",
+    "Delete local repo and remote S3 data",
+    {},
+    terminateRepo,
   )
   .demandCommand(1, "You need at least one command")
   .help().argv;
