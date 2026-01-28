@@ -3,7 +3,7 @@
 [![Live Demo](https://img.shields.io/badge/Live-Demo-success)](https://main.dq1ol2kvxe1w3.amplifyapp.com/)
 
 A modern GitHub-inspired platform for hosting, collaborating, and managing your code repositories.  
-Built with React, Node.js, MongoDB, Express—and features a powerful backend **custom git command suite** that simulates local git commands (_`init`, `add`, `commit`, `push`, `pull`, `revert`_).
+Built with React, Node.js, MongoDB, Express—and features a powerful backend **custom git command suite** that simulates local git commands (_`init`, `add`, `commit`, `push`, `pull`, `revert`, `terminate`_).
 
 ## 🚀 Features
 
@@ -13,7 +13,7 @@ Built with React, Node.js, MongoDB, Express—and features a powerful backend **
 - **User Profiles:** View your profile, contributions, repositories and more.
 - **Search & Suggestions:** Find your repositories and suggested repositories easily.
 - **Authentication & Authorization:** Secure login/signup and access control for repositories and issues.
-- **Custom Git Commands:** Work with repositories using `init`, `add`, `commit`, `push`, `pull`, and `revert`—integrated into the backend with
+- **Custom Git Commands:** Work with repositories using `init`, `add`, `commit`, `push`, `pull`, `revert`, and `terminate`—integrated into the backend with
   `local storage` and `AWS S3` support.
 
 ### 🖥 Custom Git-like CLI Commands
