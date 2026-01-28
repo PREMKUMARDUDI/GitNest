@@ -46,11 +46,9 @@ node index.js revert HEAD           # Discard local changes (reset to latest com
 node index.js revert HEAD~1         # Go back to the previous commit
 node index.js revert <commitID>     # Rollback to an earlier commit by ID
 node index.js terminate             # DANGER: Delete repo locally and on S3
-
-
+```
 
 #### **Command Descriptions**
-
 
 - **init:**
   Creates `.apnaGit` structure and a `config.json` file. It prompts the user via the terminal to input their Name, Email, and preferred S3 Bucket to configure the repository.
@@ -61,7 +59,7 @@ node index.js terminate             # DANGER: Delete repo locally and on S3
 - **push:**
   Uploads all commit folders and files to the configured S3 bucket and keeps local data intact, allowing for offline history viewing.
   - **pull:**
-  Downloads all commits from S3  to local `.apnaGit/commits`. It then intelligently determines the latest commit based on timestamps, updates the `HEAD` pointer, and **automatically overwrites** the working directory files to match the latest state.
+    Downloads all commits from S3 to local `.apnaGit/commits`. It then intelligently determines the latest commit based on timestamps, updates the `HEAD` pointer, and **automatically overwrites** the working directory files to match the latest state.
 - **revert:**
   Restores the working directory to a specific state. Supports:
   - **`HEAD`**: Resets files to the latest commit (useful for discarding uncommitted changes).
@@ -69,6 +67,9 @@ node index.js terminate             # DANGER: Delete repo locally and on S3
   - **`<commitID>`**: Revert to a specific commit from the history.
 - **terminate:**
   A cleanup utility that performs a recursive delete on the local `.apnaGit` folder **and** iterates through the S3 bucket to delete all remote objects. **Use with caution.**
+  ```
+
+  ```
 
 ## 🏗️ Architecture
 
@@ -165,7 +166,7 @@ GitNest/
 │ └── .gitignore # Git ignore rules
 └──README.md
 
-````
+```
 
 ## 🔌 API Endpoints
 
@@ -214,7 +215,7 @@ GitNest/
   followedUsers: [Schema.Types.ObjectId (ref: "User")],
   starRepos: [Schema.Types.ObjectId (ref: "Repository")]
 }
-````
+```
 
 ### Repository Model
 
