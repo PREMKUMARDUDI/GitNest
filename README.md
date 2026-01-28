@@ -68,10 +68,6 @@ node index.js terminate                   # DANGER: Delete repo locally and on S
 - **terminate:**
   A cleanup utility that performs a recursive delete on the local `.apnaGit` folder **and** iterates through the S3 bucket to delete all remote objects. **Use with caution.**
 
-  ```
-
-  ```
-
 ## 🏗️ Architecture
 
 ### System Design
