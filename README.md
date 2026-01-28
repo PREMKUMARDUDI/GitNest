@@ -37,7 +37,7 @@ Commands are powered by [yargs](https://github.com/yargs/yargs), available when 
 From the backend directory, run:
 
 ```bash
-node index.js init                        # Interactive setup for a new local repo `.apnaGit` (asks for Name/Email/Bucket)
+node index.js init                        # Interactive setup for a new local repo `.apnaGit`
 node index.js add path/to/file.txt        # Stage a file
 node index.js commit "Initial commit"     # Commit staged files with a message and author info
 node index.js push                        # Push all commits to AWS S3
