@@ -78,17 +78,17 @@ node index.js terminate                   # DANGER: Delete repo locally and on S
 
 ```
 
-┌─────────────────┐ HTTP/REST API ┌─────────────────┐
-│ Frontend │ ◄──────────────────►│ Backend │
-│ (React 19) │ (Axios Client) │ (Node.js) │
-│ Dashboard │ │ REST API │
-└─────────────────┘ └─────────────────┘
-│ │
-│ │
-┌────▼────┐ ┌────▼────┐
-│ Amplify │ │ MongoDB │
-│ Hosting │ │Database │
-└─────────┘ └─────────┘
+┌─────────────────┐      HTTP/REST API     ┌─────────────────┐
+│ Frontend        │  ◄──────────────────►  │   Backend       │
+│ (React 19)      │     (Axios Client)     │   (Node.js)     │
+│ Dashboard       │                        │   REST API      │
+└─────────────────┘                        └─────────────────┘
+        │                                           │
+        │                                           │
+   ┌────▼────┐                                 ┌────▼────┐
+   │ Amplify │                                 │ MongoDB │
+   │ Hosting │                                 │Database │
+   └─────────┘                                 └─────────┘
 
 ```
 
