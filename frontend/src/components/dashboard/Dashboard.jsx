@@ -217,7 +217,7 @@ const Dashboard = () => {
             <h3 style={{ marginBlock: "-1rem" }}>Suggested Repositories</h3>
           )}
           {repositories.length == 0 &&
-            filteredSuggestedRepos.map((repo, index) => {
+            suggestedRepos.map((repo, index) => {
               if (index < 3) {
                 return (
                   <div className="repoItem" key={repo._id}>
