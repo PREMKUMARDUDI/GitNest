@@ -19,6 +19,22 @@ const Signup = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
 
+    if (
+      username.trim() === "" ||
+      email.trim() === "" ||
+      password.trim() === ""
+    ) {
+      if (username.trim() === "") alert("Username is empty!");
+      else if (email.trim() === "") alert("Email is empty!");
+      else if (password.trim() === "") alert("Password is empty!");
+
+      setUsername("");
+      setEmail("");
+      setPassword("");
+
+      return;
+    }
+
     try {
       setLoading(true);
       const res = await clientServer.post("/signup", {

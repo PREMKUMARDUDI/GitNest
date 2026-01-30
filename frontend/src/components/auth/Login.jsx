@@ -17,6 +17,16 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
+    if (email.trim() === "" || password.trim() === "") {
+      if (email.trim() === "") alert("Email is empty!");
+      else if (password.trim() === "") alert("Password is empty!");
+
+      setEmail("");
+      setPassword("");
+
+      return;
+    }
+
     try {
       setLoading(true);
       const res = await clientServer.post("/login", {
