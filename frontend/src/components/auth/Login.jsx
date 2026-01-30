@@ -17,12 +17,20 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (email.trim() === "" || password.trim() === "") {
-      if (email.trim() === "") alert("Email is empty!");
-      else if (password.trim() === "") alert("Password is empty!");
+    const isEmailEmpty = !email.trim();
+    const isPasswordEmpty = !password.trim();
 
-      setEmail("");
-      setPassword("");
+    const isNotGmail = !email.toLowerCase().endsWith("@gmail.com");
+
+    if (isEmailEmpty || isPasswordEmpty || isNotGmail) {
+      if (isEmailEmpty) alert("Email cannot be empty!");
+      else if (isPasswordEmpty) alert("Password cannot be empty!");
+      else if (isNotGmail) alert("Only Gmail addresses are allowed!");
+
+      setTimeout(() => {
+        setEmail("");
+        setPassword("");
+      }, 10);
 
       return;
     }

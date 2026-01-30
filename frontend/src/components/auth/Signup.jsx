@@ -19,18 +19,23 @@ const Signup = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
 
-    if (
-      username.trim() === "" ||
-      email.trim() === "" ||
-      password.trim() === ""
-    ) {
-      if (username.trim() === "") alert("Username is empty!");
-      else if (email.trim() === "") alert("Email is empty!");
-      else if (password.trim() === "") alert("Password is empty!");
+    const isUsernameEmpty = !username.trim();
+    const isEmailEmpty = !email.trim();
+    const isPasswordEmpty = !password.trim();
 
-      setUsername("");
-      setEmail("");
-      setPassword("");
+    const isNotGmail = !email.toLowerCase().endsWith("@gmail.com");
+
+    if (isUsernameEmpty || isEmailEmpty || isPasswordEmpty || isNotGmail) {
+      if (isUsernameEmpty) alert("Username cannot be empty!");
+      else if (isEmailEmpty) alert("Email cannot be empty!");
+      else if (isPasswordEmpty) alert("Password cannot be empty!");
+      else if (isNotGmail) alert("Only Gmail addresses are allowed!");
+
+      setTimeout(() => {
+        setUsername("");
+        setEmail("");
+        setPassword("");
+      }, 10);
 
       return;
     }
