@@ -43,6 +43,8 @@ const Login = () => {
       window.location.href = "/";
     } catch (err) {
       console.error(err);
+      setEmail("");
+      setPassword("");
       alert("Login Failed!");
       setLoading(false);
     }

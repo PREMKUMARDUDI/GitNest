@@ -52,6 +52,9 @@ const Signup = () => {
       window.location.href = "/";
     } catch (err) {
       console.error(err);
+      setUsername("");
+      setEmail("");
+      setPassword("");
       alert("Signup Failed!");
       setLoading(false);
     }
