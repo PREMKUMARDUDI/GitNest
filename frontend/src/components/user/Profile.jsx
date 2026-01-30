@@ -85,16 +85,24 @@ const Profile = () => {
 
           <div className="heat-map-section">
             <h2>Recent Contributions</h2>
-            <img
-              src="/heatMap.png
+            {repositories.length === 0 && (
+              <h3 style={{ color: "grey" }}>No Contributions yet</h3>
+            )}
+            {repositories.length != 0 && (
+              <img
+                src="/heatMap.png
             "
-              alt=""
-            />
+                alt=""
+              />
+            )}
           </div>
         </div>
 
         <h2>Repositories</h2>
         <div className="repositories_UserProfile">
+          {repositories.length === 0 && (
+            <h3 style={{ color: "grey" }}>No Repositories yet</h3>
+          )}
           {repositories.map((repo) => {
             return (
               <div className="repo_Item" key={repo._id}>
