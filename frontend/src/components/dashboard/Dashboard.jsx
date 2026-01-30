@@ -59,7 +59,7 @@ const Dashboard = () => {
         const data = res.data;
 
         const otherRepos = data.repositories?.filter(
-          (repo) => repo.owner?._id !== userId
+          (repo) => repo.owner?._id !== userId,
         );
 
         setSuggestedRepos(otherRepos);
@@ -82,7 +82,7 @@ const Dashboard = () => {
   const filteredRepositories = useMemo(() => {
     if (!searchQuery) return repositories;
     return repositories.filter((repo) =>
-      repo.name.toLowerCase().includes(searchQuery.toLowerCase())
+      repo.name.toLowerCase().includes(searchQuery.toLowerCase()),
     );
   }, [repositories, searchQuery]);
 
@@ -90,7 +90,7 @@ const Dashboard = () => {
   const filteredSuggestedRepos = useMemo(() => {
     if (!searchQuery2) return suggestedRepos;
     return suggestedRepos.filter((repo) =>
-      repo.name.toLowerCase().includes(searchQuery2.toLowerCase())
+      repo.name.toLowerCase().includes(searchQuery2.toLowerCase()),
     );
   }, [suggestedRepos, searchQuery2]);
 
@@ -123,28 +123,41 @@ const Dashboard = () => {
               New
             </div>
           </div>
-          <div className="search">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+          {repositories.length != 0 && (
+            <div className="search">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                />
+              </svg>
+              <input
+                type="text"
+                placeholder="Search repositories..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
-            </svg>
-            <input
-              type="text"
-              placeholder="Search repositories..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
+            </div>
+          )}
+
+          {repositories.length == 0 && (
+            <h5
+              style={{
+                marginBlock: "1rem",
+                color: "grey",
+              }}
+            >
+              No Repositories yet
+            </h5>
+          )}
 
           {filteredRepositories.map((repo) => {
             return (
@@ -199,6 +212,29 @@ const Dashboard = () => {
 
         <div className="mainContainer">
           <h2>Home</h2>
+
+          {repositories.length == 0 && (
+            <h3 style={{ marginBlock: "-1rem" }}>Suggested Repositories</h3>
+          )}
+          {repositories.length == 0 &&
+            filteredSuggestedRepos.map((repo, index) => {
+              if (index < 3) {
+                return (
+                  <div className="repoItem" key={repo._id}>
+                    <span className="name">{repo.name}</span>
+                    <span className="desc">{repo.description}</span>
+                    <span
+                      className="link"
+                      onClick={() => {
+                        navigate(`/repo/${repo._id}`);
+                      }}
+                    >
+                      View Repository
+                    </span>
+                  </div>
+                );
+              }
+            })}
 
           {repositories.map((repo) => {
             return (

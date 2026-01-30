@@ -154,7 +154,7 @@ const NewIssue = () => {
               onClick={() => {
                 console.log(
                   "Navigating to:",
-                  `/issue/create/${selectedRepo._id}`
+                  `/issue/create/${selectedRepo._id}`,
                 );
                 navigate(`/issue/create/${selectedRepo._id}`);
               }}

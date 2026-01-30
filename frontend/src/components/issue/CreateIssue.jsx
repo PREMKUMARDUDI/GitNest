@@ -120,7 +120,8 @@ const CreateIssue = () => {
           >
             <div className="createIssue_Top">
               <div className="createIssue_Name">
-                Create new issue in {userProfile.username}/{selectedRepo.name}{" "}
+                Create new issue in {userProfile.username}/
+                {selectedRepo.name}{" "}
               </div>
               <div
                 className="createIssue_Collapse"
