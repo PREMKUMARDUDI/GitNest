@@ -37,7 +37,7 @@ const DeleteIssue = () => {
   }, [id]);
 
   useEffect(() => {
-    if (issue.repository && issue.repository.owner !== userId) {
+    if (issue.owner && issue.owner._id !== userId) {
       navigate(`/issue/${id}`);
     }
   }, [issue.repository, userId, id, navigate]);
