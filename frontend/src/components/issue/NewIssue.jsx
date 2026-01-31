@@ -38,7 +38,7 @@ const NewIssue = () => {
 
     const fetchRepositories = async () => {
       try {
-        const res = await clientServer.get(`/repo/user/${userId}`);
+        const res = await clientServer.get(`/repo/all`);
 
         const data = res.data;
         setRepositories(data.repositories.reverse());
@@ -67,6 +67,7 @@ const NewIssue = () => {
       <Navbar />
       <div
         className="newIssue_OuterContainer"
+        style={{ height: isRepoListOpen ? "150vh" : "100vh" }}
         onClick={() => {
           setIsNewIssueOpen(false);
           navigate("/");

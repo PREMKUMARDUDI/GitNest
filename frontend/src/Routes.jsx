@@ -12,6 +12,7 @@ import UpdateRepo from "./components/repo/UpdateRepo.jsx";
 import DeleteRepo from "./components/repo/DeleteRepo.jsx";
 import NewIssue from "./components/issue/NewIssue.jsx";
 import CreateIssue from "./components/issue/CreateIssue.jsx";
+import AllIssues from "./components/issue/AllIssues.jsx";
 import IssueDetails from "./components/issue/IssueDetails.jsx";
 import UpdateIssue from "./components/issue/UpdateIssue.jsx";
 import DeleteIssue from "./components/issue/DeleteIssue.jsx";
@@ -86,6 +87,10 @@ const ProjectRoutes = () => {
     {
       path: "/issue/create/:repoId",
       element: <CreateIssue />,
+    },
+    {
+      path: "/issue/all",
+      element: <AllIssues />,
     },
     {
       path: "/issue/:id",

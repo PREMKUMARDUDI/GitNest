@@ -70,7 +70,7 @@ const Navbar = () => {
       setIsSearchOpen(false);
     } else {
       const filteredRepo = suggestedRepos.filter((repo) =>
-        repo.name.toLowerCase().includes(searchQuery.toLowerCase())
+        repo.name.toLowerCase().includes(searchQuery.toLowerCase()),
       );
       setSearchResults(filteredRepo);
     }
@@ -412,7 +412,12 @@ const Navbar = () => {
             <div className="createNew_InfoContainer">Create new...</div>
           )}
         </div>
-        <div className="issue">
+        <div
+          className="issue"
+          onClick={() => {
+            window.location.href = "/issue/all";
+          }}
+        >
           <img
             src="/newIssue.png"
             alt=""
