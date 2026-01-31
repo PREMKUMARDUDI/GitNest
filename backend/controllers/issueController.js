@@ -141,7 +141,9 @@ const getIssueById = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const issue = await Issue.findById(id).populate("repository");
+    const issue = await Issue.findById(id)
+      .populate("repository")
+      .populate("owner");
 
     if (!issue) {
       return res.status(404).send({ error: "Issue not found!" });
