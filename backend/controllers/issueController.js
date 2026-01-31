@@ -5,7 +5,7 @@ const Issue = require("../models/issueModel");
 
 const createIssue = async (req, res) => {
   const { repoID } = req.params; // RepoID
-  const { title, description } = req.body;
+  const { title, description, owner } = req.body;
 
   try {
     const existingIssue = await Issue.findOne({
@@ -22,6 +22,7 @@ const createIssue = async (req, res) => {
     const newIssue = new Issue({
       title,
       description,
+      owner,
       repository: repoID,
     });
 
