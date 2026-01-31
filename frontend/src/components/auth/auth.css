@@ -13,7 +13,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: -0.25rem;
+  margin-left: -0.7rem;
 }
 
 .logo-login {
@@ -31,7 +31,7 @@
 .login-heading {
   margin-top: -1.5rem;
   margin-bottom: -1rem;
-  margin-left: -2rem;
+  margin-left: -3.25rem;
 }
 
 .login-box {
@@ -129,7 +129,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-top: 0.5rem;
+  margin-top: 0.75rem;
 }
 
 .signup-button {
