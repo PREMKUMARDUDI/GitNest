@@ -71,8 +71,12 @@ const IssueDetails = () => {
           <span>Description</span>: <span>{issue.description}</span>
         </div>
 
+        <div className="issue_Owner">
+          <span>Owner</span>: <span>{issue.owner?.username}</span>
+        </div>
+
         <div className="issue_Change_Navigates">
-          {issue.repository?.owner === userId && (
+          {issue.owner?._id === userId && (
             <div
               className="update_Issue"
               onClick={() => {
@@ -83,7 +87,7 @@ const IssueDetails = () => {
             </div>
           )}
 
-          {issue.repository?.owner === userId && (
+          {issue.owner?._id === userId && (
             <div
               className="delete_Issue"
               onClick={() => {

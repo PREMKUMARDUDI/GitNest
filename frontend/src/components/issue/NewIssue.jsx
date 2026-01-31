@@ -121,7 +121,7 @@ const NewIssue = () => {
               >
                 <img src="/newRepo.png" alt="" />
                 <span>
-                  {userProfile.username}/{selectedRepo?.name}
+                  {selectedRepo.owner?.username}/{selectedRepo?.name}
                 </span>
                 <img src="/downArrow.png" alt="" />
 
@@ -138,7 +138,7 @@ const NewIssue = () => {
                         >
                           <img src="/newRepo.png" alt="" />
                           <span>
-                            {userProfile.username}/{repo.name}
+                            {repo.owner?.username}/{repo.name}
                           </span>
                         </div>
                       );

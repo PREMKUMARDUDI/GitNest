@@ -85,6 +85,7 @@ const CreateIssue = () => {
       const res = await clientServer.post(`/issue/create/${repoId}`, {
         title,
         description,
+        owner: userProfile._id,
       });
 
       console.log("Issue created:", res);
@@ -120,7 +121,7 @@ const CreateIssue = () => {
           >
             <div className="createIssue_Top">
               <div className="createIssue_Name">
-                Create new issue in {userProfile.username}/
+                Create new issue in {selectedRepo.owner?.username}/
                 {selectedRepo.name}{" "}
               </div>
               <div

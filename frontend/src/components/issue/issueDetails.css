@@ -57,6 +57,22 @@
   font-size: 0.9rem;
 }
 
+.issue_Owner {
+  width: 500px;
+  margin-top: 1.5rem;
+  overflow-wrap: break-word;
+}
+
+.issue_Owner span {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.issue_Owner span ~ span {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
 .issue_Change_Navigates {
   width: 25rem;
   margin-top: 2.5rem;
