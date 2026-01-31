@@ -76,7 +76,6 @@ const Profile = () => {
             <div className="name">
               <h3 style={{ textAlign: "center" }}>{userDetails.username}</h3>
             </div>
-            <button className="follow-btn">Follow</button>
             <div className="follower">
               <p>{Math.floor(Math.random() * 50) + 20} Follower</p>
               <p>{Math.floor(Math.random() * 10) + 1} Following</p>
