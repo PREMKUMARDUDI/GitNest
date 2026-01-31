@@ -74,18 +74,33 @@ const deleteIssueById = async (req, res) => {
   }
 };
 
-const getAllIssues = async (req, res) => {
+const getAllIssuesByRepo = async (req, res) => {
   const { repoID } = req.params; // RepoID
 
   try {
     const issues = await Issue.find({ repository: repoID }).populate(
-      "repository"
+      "repository",
     );
 
     if (!issues || issues.length === 0) {
       return res
         .status(404)
         .send({ error: "No Issues found for this repository!" });
+    }
+
+    res.status(200).json(issues);
+  } catch (err) {
+    console.error("Error fetching issues : ", err.message);
+    res.status(500).send("Internal Server Error!");
+  }
+};
+
+const getAllIssues = async (req, res) => {
+  try {
+    const issues = await Issue.find({}).populate("repository");
+
+    if (!issues || issues.length === 0) {
+      return res.status(404).send({ error: "No Issues found!" });
     }
 
     res.status(200).json(issues);
@@ -142,6 +157,7 @@ module.exports = {
   createIssue,
   updateIssueById,
   deleteIssueById,
+  getAllIssuesByRepo,
   getAllIssues,
   deleteAllIssuesByRepo,
   getIssueById,
