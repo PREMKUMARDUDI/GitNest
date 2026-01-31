@@ -2,6 +2,7 @@
   color: #f1f6fd;
   height: 100vh;
   width: 100vw;
+  min-height: fit-content;
   font-family: "Asap", sans-serif;
   background-color: #0c1116;
 }
@@ -12,6 +13,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-left: -0.25rem;
 }
 
 .logo-login {
@@ -24,7 +26,12 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  gap: 10px;
+}
+
+.login-heading {
+  margin-top: -1.5rem;
+  margin-bottom: -1rem;
+  margin-left: -2rem;
 }
 
 .login-box {
@@ -49,7 +56,8 @@
   border: 0.5px solid #f1f6fd;
   font-size: 1rem;
   color: whitesmoke;
-  transition: border-color 0.3s cubic-bezier(0.25, 0.01, 0.25, 1) 0s,
+  transition:
+    border-color 0.3s cubic-bezier(0.25, 0.01, 0.25, 1) 0s,
     color 0.3s cubic-bezier(0.25, 0.01, 0.25, 1) 0s,
     background 0.2s cubic-bezier(0.25, 0.01, 0.25, 1) 0s;
 }
