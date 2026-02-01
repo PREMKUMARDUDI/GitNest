@@ -7,6 +7,10 @@ issueRouter.put("/issue/update/:id", issueController.updateIssueById);
 issueRouter.delete("/issue/delete/:id", issueController.deleteIssueById);
 issueRouter.get("/issue/all/:repoID", issueController.getAllIssuesByRepo);
 issueRouter.get("/issue/all", issueController.getAllIssues);
+issueRouter.get(
+  "/issue/user/:userID",
+  issueController.getAllIssuesForCurrentUser,
+);
 issueRouter.delete(
   "/issue/delete/all/:repoID",
   issueController.deleteAllIssuesByRepo,

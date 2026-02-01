@@ -111,6 +111,27 @@ const getAllIssues = async (req, res) => {
   }
 };
 
+const getAllIssuesForCurrentUser = async (req, res) => {
+  const { userID } = req.params;
+
+  try {
+    if (!mongoose.Types.ObjectId.isValid(userID)) {
+      return res.status(400).send("Invalid User ID!");
+    }
+
+    const issues = await Issue.find({ owner: userID }).populate("repository");
+
+    if (!issues || issues.length === 0) {
+      return res.status(404).send({ error: "No Issues found for this user!" });
+    }
+
+    res.status(200).json(issues);
+  } catch (err) {
+    console.error("Error fetching issues for user: ", err.message);
+    res.status(500).send("Internal Server Error!");
+  }
+};
+
 const deleteAllIssuesByRepo = async (req, res) => {
   const { repoID } = req.params; // RepoID
 
@@ -162,6 +183,7 @@ module.exports = {
   deleteIssueById,
   getAllIssuesByRepo,
   getAllIssues,
+  getAllIssuesForCurrentUser,
   deleteAllIssuesByRepo,
   getIssueById,
 };
