@@ -98,7 +98,9 @@ const getAllIssuesByRepo = async (req, res) => {
 
 const getAllIssues = async (req, res) => {
   try {
-    const issues = await Issue.find({}).populate("repository");
+    const issues = await Issue.find({})
+      .populate("repository")
+      .populate("owner");
 
     if (!issues || issues.length === 0) {
       return res.status(404).send({ error: "No Issues found!" });
