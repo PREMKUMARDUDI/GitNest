@@ -14,6 +14,14 @@
   align-items: center;
 }
 
+.repo_Top img {
+  margin-top: 0.25rem;
+}
+
+.repo_Top h2 {
+  margin-left: -0.75rem;
+}
+
 .visibility_Icon {
   display: flex;
   justify-content: center;

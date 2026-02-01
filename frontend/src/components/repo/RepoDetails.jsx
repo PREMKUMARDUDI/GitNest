@@ -72,6 +72,11 @@ const RepoDetails = () => {
       <Navbar />
       <div className="RepoDetails_Container">
         <div className="repo_Top">
+          <img
+            src="/public/newRepo.png"
+            alt=""
+            style={{ width: "1.25rem", marginRight: "0.25rem" }}
+          />
           <h2>{repo.name}</h2>
           <div className="visibility_Icon">
             {repo.visibility ? "Public" : "Private"}

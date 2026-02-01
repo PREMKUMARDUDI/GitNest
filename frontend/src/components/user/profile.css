@@ -96,6 +96,10 @@
   background-color: rgba(0, 0, 0, 0.4);
 }
 
+/* .repositories_UserProfile .repo_Item .repo_Name img {
+  margin-bottom: -0.1rem;
+} */
+
 .repositories_UserProfile .repo_Item .repo_Name {
   font-size: 1.3rem;
   font-weight: 600;

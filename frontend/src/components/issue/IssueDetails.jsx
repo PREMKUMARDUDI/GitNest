@@ -56,6 +56,11 @@ const IssueDetails = () => {
       <Navbar />
       <div className="IssueDetails_Container">
         <div className="issue_Top">
+          <img
+            src="/newIssue.png"
+            alt=""
+            style={{ width: "1.25rem", marginRight: "0.25rem" }}
+          />
           <h2>{issue.title}</h2>
           <div className="status_Icon">
             {issue.status === "open" ? "Open" : "Closed"}

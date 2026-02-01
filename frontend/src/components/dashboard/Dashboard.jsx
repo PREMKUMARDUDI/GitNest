@@ -211,17 +211,30 @@ const Dashboard = () => {
         </div>
 
         <div className="mainContainer">
-          <h2>Home</h2>
+          <h2 style={{ marginLeft: "-0.05rem", marginTop: "1.5rem" }}>Home</h2>
 
           {repositories.length == 0 && (
-            <h3 style={{ marginBlock: "-1rem" }}>Suggested Repositories</h3>
+            <h3 style={{ marginBlock: "-1rem", marginTop: "-2rem" }}>
+              Suggested Repositories
+            </h3>
           )}
           {repositories.length == 0 &&
             suggestedRepos.map((repo, index) => {
               if (index < 3) {
                 return (
                   <div className="repoItem" key={repo._id}>
-                    <span className="name">{repo.name}</span>
+                    <span className="name">
+                      <img
+                        src="/public/newRepo.png"
+                        alt=""
+                        style={{
+                          width: "1rem",
+                          marginRight: "0.45rem",
+                          marginBottom: "-0.05rem",
+                        }}
+                      />
+                      {repo.name}
+                    </span>
                     <span className="desc">{repo.description}</span>
                     <span
                       className="link"
@@ -236,10 +249,26 @@ const Dashboard = () => {
               }
             })}
 
+          {repositories.length != 0 && (
+            <h3 style={{ marginBottom: "-1rem", marginTop: "-2rem" }}>
+              Your Repositories
+            </h3>
+          )}
           {repositories.map((repo) => {
             return (
               <div className="repoItem" key={repo._id}>
-                <span className="name">{repo.name}</span>
+                <span className="name">
+                  <img
+                    src="/public/newRepo.png"
+                    alt=""
+                    style={{
+                      width: "1rem",
+                      marginRight: "0.45rem",
+                      marginBottom: "-0.05rem",
+                    }}
+                  />
+                  {repo.name}
+                </span>
                 <span className="desc">{repo.description}</span>
                 <span
                   className="link"

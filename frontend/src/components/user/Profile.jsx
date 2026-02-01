@@ -105,7 +105,19 @@ const Profile = () => {
           {repositories.map((repo) => {
             return (
               <div className="repo_Item" key={repo._id}>
-                <span className="repo_Name">{repo.name}</span>
+                <span className="repo_Name">
+                  {" "}
+                  <img
+                    src="/public/newRepo.png"
+                    alt=""
+                    style={{
+                      width: "1rem",
+                      marginRight: "0.45rem",
+                      marginBottom: "-0.05rem",
+                    }}
+                  />
+                  {repo.name}
+                </span>
                 <span className="repo_Desc">{repo.description}</span>
                 <span
                   className="repo_Link"
