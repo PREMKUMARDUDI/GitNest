@@ -13,7 +13,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: -0.7rem;
+  margin-left: -0.02rem;
 }
 
 .logo-login {
@@ -31,7 +31,7 @@
 .login-heading {
   margin-top: -1.5rem;
   margin-bottom: -1rem;
-  margin-left: -3.25rem;
+  margin-left: -2rem;
 }
 
 .login-box {

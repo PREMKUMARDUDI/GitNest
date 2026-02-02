@@ -1,9 +1,8 @@
 .issueUpdate_Container {
-  width: 100vw;
+  min-width: fit-content;
   height: 100vh;
-  margin-top: 4rem;
-  padding-top: 1rem;
-  padding-inline: 17rem;
+  padding-top: 5rem;
+  padding-inline-start: 17rem;
 
   background-color: #0d1117;
 }

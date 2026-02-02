@@ -1,8 +1,7 @@
 .IssueDetails_Container {
-  width: 100vw;
-  height: 100vh;
-  margin-top: 4rem;
-  padding-top: 1rem;
+  min-width: fit-content;
+  min-height: 100vh;
+  padding-top: 5rem;
   padding-inline-start: 17rem;
   padding-inline-end: 17rem;
 

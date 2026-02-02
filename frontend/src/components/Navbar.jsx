@@ -371,7 +371,7 @@ const Navbar = () => {
             <div className="create-new-container">
               <div
                 onClick={() => {
-                  window.location.href = "/issue/new";
+                  navigate("/issue/new");
                 }}
               >
                 <img src="/newIssue.png" alt="" />
@@ -379,7 +379,7 @@ const Navbar = () => {
               </div>
               <div
                 onClick={() => {
-                  window.location.href = "/repo/create";
+                  navigate("/repo/create");
                 }}
               >
                 <img src="/newRepo2.png" alt="" />
@@ -415,7 +415,7 @@ const Navbar = () => {
         <div
           className="issue"
           onClick={() => {
-            window.location.href = "/issue/all";
+            navigate("/issue/all");
           }}
         >
           <img
@@ -458,7 +458,7 @@ const Navbar = () => {
               <div
                 className="userProfile_img"
                 onClick={() => {
-                  window.location.href = "/profile";
+                  navigate("/profile");
                 }}
               >
                 <img src="/copilot.png" alt="GitHub Logo" />
@@ -514,7 +514,7 @@ const Navbar = () => {
             <div
               className="right-menu-item"
               onClick={() => {
-                window.location.href = "/profile";
+                navigate("/profile");
               }}
             >
               <img src="/profile.png" alt="" />

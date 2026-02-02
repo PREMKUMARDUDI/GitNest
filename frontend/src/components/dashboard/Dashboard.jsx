@@ -116,7 +116,7 @@ const Dashboard = () => {
               onClick={() => navigate("/repo/create")}
             >
               <img
-                src="newRepo.png"
+                src="/newRepo.png"
                 alt=""
                 style={{ width: "0.9rem", marginRight: "0.25rem" }}
               />
@@ -225,7 +225,7 @@ const Dashboard = () => {
                   <div className="repoItem" key={repo._id}>
                     <span className="name">
                       <img
-                        src="/public/newRepo.png"
+                        src="/newRepo.png"
                         alt=""
                         style={{
                           width: "1rem",
@@ -259,7 +259,7 @@ const Dashboard = () => {
               <div className="repoItem" key={repo._id}>
                 <span className="name">
                   <img
-                    src="/public/newRepo.png"
+                    src="/newRepo.png"
                     alt=""
                     style={{
                       width: "1rem",

@@ -73,7 +73,7 @@ const RepoDetails = () => {
       <div className="RepoDetails_Container">
         <div className="repo_Top">
           <img
-            src="/public/newRepo.png"
+            src="/newRepo.png"
             alt=""
             style={{ width: "1.25rem", marginRight: "0.25rem" }}
           />

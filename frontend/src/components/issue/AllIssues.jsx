@@ -91,7 +91,7 @@ const AllIssues = () => {
                   <div className="issue_Item" key={issue._id}>
                     <span className="issue_Name">
                       <img
-                        src="/public/newIssue.png"
+                        src="/newIssue.png"
                         alt=""
                         style={{
                           width: "1rem",
@@ -126,7 +126,7 @@ const AllIssues = () => {
                   <div className="issue_Item" key={issue._id}>
                     <span className="issue_Name">
                       <img
-                        src="/public/newIssue.png"
+                        src="/newIssue.png"
                         alt=""
                         style={{
                           width: "1rem",
