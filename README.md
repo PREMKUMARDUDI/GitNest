@@ -227,7 +227,7 @@ GitNest/
   content: [],
   visibility: Boolean,
   owner: Schema.Types.ObjectId (ref: "User"),
-  issue: Schema.Types.ObjectID (ref: "Issue")
+  issues: Schema.Types.ObjectID (ref: "Issue")
 }
 ```
 
