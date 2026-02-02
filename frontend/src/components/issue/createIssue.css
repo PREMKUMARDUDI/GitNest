@@ -65,7 +65,7 @@
 }
 
 .createIssue_Body .title_Container input {
-  width: 95%;
+  width: 96%;
   height: 2rem;
   border-radius: 5px;
   padding: 2px 6px;
@@ -105,7 +105,7 @@
 }
 
 .createIssue_Body .description_Container textarea {
-  width: 95%;
+  width: 94.75%;
   height: 13.8rem;
   border-radius: 6px;
   padding: 0.75rem;
