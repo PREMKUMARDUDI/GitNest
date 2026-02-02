@@ -87,6 +87,7 @@
 .createIssue_Body .description_Container {
   display: flex;
   flex-direction: column;
+  align-content: space-evenly;
 }
 
 .createIssue_Body .description_Container label span {
@@ -104,7 +105,7 @@
 }
 
 .createIssue_Body .description_Container textarea {
-  width: 48rem;
+  width: 97.15%;
   height: 13.8rem;
   border-radius: 6px;
   padding: 0.75rem;

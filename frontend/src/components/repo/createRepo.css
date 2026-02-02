@@ -1,5 +1,5 @@
 .main_Container {
-  width: 100%;
+  min-width: fit-content;
   min-height: 100vh;
   padding-inline-start: 15.5rem;
   padding-top: 5.5rem;
