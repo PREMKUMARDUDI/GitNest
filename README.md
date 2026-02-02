@@ -187,7 +187,7 @@ GitNest/
 - `GET /repo/all` — Get all repositories
 - `GET /repo/:id` — Get repository by ID
 - `GET /repo/name/:name` — Get repository by Username
-- `GET /repo/user/:userID` — Get repository by userID
+- `GET /repo/user/:userID` — Get all repositories for user by userID
 - `PUT /repo/update/:id` — Update a repository by ID
 - `PATCH /repo/toggle/:id` — Update visibility for repository by ID
 - `DELETE /repo/delete/:id` — Delete a repository by ID (also deletes its issues)
@@ -197,6 +197,8 @@ GitNest/
 - `POST /issue/create/:repoID` — Create an issue for a repository
 - `GET /issue/:id` — Get a single issue by ID
 - `GET /issue/all/:repoID` — List all issues for a repository
+- `GET /issue/all` — List all issues
+- `GET /issue/user/:userID` — List all issues for user by userID
 - `PUT /issue/update/:id` — Update an issue by ID
 - `DELETE /issue/delete/:id` — Delete a single issue by ID
 - `DELETE /issue/delete/all/:repoID` — Delete all issues for a repository
