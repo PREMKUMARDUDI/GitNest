@@ -196,8 +196,8 @@ GitNest/
 
 - `POST /issue/create/:repoID` — Create an issue for a repository
 - `GET /issue/:id` — Get a single issue by ID
-- `GET /issue/all/:repoID` — List all issues for a repository
 - `GET /issue/all` — List all issues
+- `GET /issue/all/:repoID` — List all issues for a repository
 - `GET /issue/user/:userID` — List all issues for user by userID
 - `PUT /issue/update/:id` — Update an issue by ID
 - `DELETE /issue/delete/:id` — Delete a single issue by ID
