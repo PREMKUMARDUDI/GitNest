@@ -238,6 +238,7 @@ GitNest/
   title: String (required),
   description: String (required),
   status: String (enum: ["open", "closed"],),
+  owner: Schema.Types.ObjectId (ref: "User"),
   repository: Schema.Types.ObjectId (ref: "Repository"),
 }
 ```
