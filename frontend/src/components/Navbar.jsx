@@ -173,7 +173,12 @@ const Navbar = () => {
               </svg>
               <span>Home</span>
             </div>
-            <div className="left-menu-item">
+            <div
+              className="left-menu-item"
+              onClick={() => {
+                navigate("/issue/all");
+              }}
+            >
               <img
                 src="/newIssue.png"
                 alt=""
