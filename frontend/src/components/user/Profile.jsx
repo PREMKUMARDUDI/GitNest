@@ -108,7 +108,7 @@ const Profile = () => {
                 <span className="repo_Name">
                   {" "}
                   <img
-                    src="/public/newRepo.png"
+                    src="/newRepo.png"
                     alt=""
                     style={{
                       width: "1rem",
