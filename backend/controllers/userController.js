@@ -1,73 +1,59 @@
+const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const { MongoClient } = require("mongodb");
-const dotenv = require("dotenv");
-const ObjectId = require("mongodb").ObjectId;
-
-dotenv.config();
-
-const mongoUrl = process.env.MONGO_URL;
-
-let client;
-
-async function connectClient() {
-  if (!client) {
-    try {
-      client = new MongoClient(mongoUrl);
-      await client.connect();
-    } catch (err) {
-      console.error("MongoDB connection failed:", err.message);
-      throw err;
-    }
-  }
-}
+const User = require("../models/userModel");
+const Repository = require("../models/repoModel");
+const Issue = require("../models/issueModel");
 
 const signup = async (req, res) => {
   const { username, email, password } = req.body;
 
   try {
-    await connectClient();
-    const db = client.db("githubclone");
-    const usersCollection = db.collection("users");
+    const trimmedUsername = username ? username.trim() : "";
+    const trimmedEmail = email ? email.trim() : "";
 
-    const user = await usersCollection.findOne({ username });
-    if (user) {
-      return res.status(400).json({ message: "User already exists!" });
+    if (!trimmedUsername || !trimmedEmail || !password) {
+      return res.status(400).send({ error: "All credentials are required!" });
+    }
+
+    const userExists = await User.findOne({
+      $or: [{ username: trimmedUsername }, { email: trimmedEmail }],
+    });
+
+    if (userExists) {
+      return res
+        .status(400)
+        .send({ error: "User with this username or email already exists!" });
     }
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const newUser = {
-      username,
-      email,
+    const newUser = new User({
+      username: trimmedUsername,
+      email: trimmedEmail,
       password: hashedPassword,
       repositories: [],
-      followedUsers: [],
-      starRepos: [],
-    };
+    });
 
-    const result = await usersCollection.insertOne(newUser);
-    const token = jwt.sign(
-      { id: result.insertedId },
-      process.env.JWT_SECRET_KEY,
-      {
-        expiresIn: "1h",
-      }
-    );
+    await newUser.save();
+
+    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET_KEY, {
+      expiresIn: "1h",
+    });
 
     res.status(201).json({
       message: "User created successfully!",
       token,
       user: {
-        id: result.insertedId,
-        username,
-        email,
+        id: newUser._id,
+        username: newUser.username,
+        email: newUser.email,
       },
     });
   } catch (err) {
-    console.error("Error during singup : ", err.message);
-    res.status(500).json({ message: "Internal server error!" });
+    console.error("Error during signup : ", err.message);
+    res.status(500).send("Internal Server Error!");
   }
 };
 
@@ -75,18 +61,22 @@ const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    await connectClient();
-    const db = client.db("githubclone");
-    const usersCollection = db.collection("users");
+    const trimmedEmail = email ? email.trim() : "";
 
-    const user = await usersCollection.findOne({ email });
+    if (!trimmedEmail || !password) {
+      return res
+        .status(400)
+        .send({ error: "Email and password are required!" });
+    }
+
+    const user = await User.findOne({ email: trimmedEmail });
     if (!user) {
-      return res.status(400).json({ message: "Invalid credentials!" });
+      return res.status(400).send({ error: "Invalid credentials!" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ message: "Invalid credentials!" });
+      return res.status(400).send({ error: "Invalid credentials!" });
     }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
@@ -104,22 +94,22 @@ const login = async (req, res) => {
     });
   } catch (err) {
     console.error("Error during login : ", err.message);
-    res.status(500).json({ message: "Internal server error!" });
+    res.status(500).send("Internal Server Error!");
   }
 };
 
 const getAllUsers = async (req, res) => {
   try {
-    await connectClient();
-    const db = client.db("githubclone");
-    const usersCollection = db.collection("users");
+    const users = await User.find({}).select("-password");
 
-    const users = await usersCollection.find({}).toArray();
+    if (!users || users.length === 0) {
+      return res.status(404).send({ error: "No users found!" });
+    }
 
     res.status(200).json(users);
   } catch (err) {
     console.error("Error fetching users : ", err.message);
-    res.status(500).json({ message: "Internal server error!" });
+    res.status(500).send("Internal Server Error!");
   }
 };
 
@@ -127,22 +117,20 @@ const getUserProfile = async (req, res) => {
   const currentUserID = req.params.id;
 
   try {
-    await connectClient();
-    const db = client.db("githubclone");
-    const usersCollection = db.collection("users");
+    if (!mongoose.Types.ObjectId.isValid(currentUserID)) {
+      return res.status(400).send({ error: "Invalid User ID!" });
+    }
 
-    const user = await usersCollection.findOne({
-      _id: new ObjectId(currentUserID),
-    });
+    const user = await User.findById(currentUserID).select("-password");
 
     if (!user) {
-      return res.status(404).json({ message: "User not found!" });
+      return res.status(404).send({ error: "User not found!" });
     }
 
     res.status(200).json(user);
   } catch (err) {
     console.error("Error fetching user profile : ", err.message);
-    res.status(500).json({ message: "Internal server error!" });
+    res.status(500).send("Internal Server Error!");
   }
 };
 
@@ -151,41 +139,35 @@ const updateUserProfile = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    await connectClient();
-    const db = client.db("githubclone");
-    const usersCollection = db.collection("users");
+    if (!mongoose.Types.ObjectId.isValid(currentUserID)) {
+      return res.status(400).send({ error: "Invalid User ID!" });
+    }
 
-    const updates = {};
-    if (email) updates.email = email;
+    const user = await User.findById(currentUserID);
+    if (!user) {
+      return res.status(404).send({ error: "User not found!" });
+    }
+
+    if (email) user.email = email.trim();
     if (password) {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
-      updates.password = hashedPassword;
+      user.password = hashedPassword;
     }
 
-    const result = await usersCollection.findOneAndUpdate(
-      { _id: new ObjectId(currentUserID) },
-      { $set: updates },
-      { returnDocument: "after" }
-    );
+    await user.save();
 
-    let updatedUser = result.value;
-    if (!updatedUser) {
-      updatedUser = await usersCollection.findOne({
-        _id: new ObjectId(currentUserID),
-      });
-      if (!updatedUser) {
-        return res.status(404).json({ message: "User not found!" });
-      }
-    }
+    // Hide password before returning update payload
+    const userResponse = user.toObject();
+    delete userResponse.password;
 
-    res.send({
-      updatedUser,
+    res.status(200).json({
       message: "User Profile updated successfully!",
+      updatedUser: userResponse,
     });
   } catch (err) {
     console.error("Error updating user profile : ", err.message);
-    res.status(500).json({ message: "Internal server error!" });
+    res.status(500).send("Internal Server Error!");
   }
 };
 
@@ -193,29 +175,43 @@ const deleteUserProfile = async (req, res) => {
   const currentUserID = req.params.id;
 
   try {
-    await connectClient();
-    const db = client.db("githubclone");
-    const usersCollection = db.collection("users");
-
-    const user = await usersCollection.findOne({
-      _id: new ObjectId(currentUserID),
-    });
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found!" });
+    if (!mongoose.Types.ObjectId.isValid(currentUserID)) {
+      return res.status(400).send({ error: "Invalid User ID!" });
     }
 
-    const result = await usersCollection.findOneAndDelete({
-      _id: new ObjectId(currentUserID),
-    });
+    const user = await User.findById(currentUserID);
+    if (!user) {
+      return res.status(404).send({ error: "User not found!" });
+    }
 
-    res.send({
-      deletedUser: user,
-      message: "User Profile deleted successfully!",
+    // SYNC: Find all repositories owned by this user
+    const userRepos = await Repository.find({ owner: currentUserID });
+    const repoIds = userRepos.map((repo) => repo._id);
+
+    // SYNC: Clean out all issues related to any of this user's repositories
+    await Issue.deleteMany({ repository: { $in: repoIds } });
+
+    // SYNC: Clean out any direct issues this specific user authored elsewhere
+    await Issue.deleteMany({ owner: currentUserID });
+
+    // SYNC: Safely remove all repositories owned by this user
+    await Repository.deleteMany({ owner: currentUserID });
+
+    // Finally, delete the user account
+    await User.findByIdAndDelete(currentUserID);
+
+    res.status(200).json({
+      message:
+        "User account and all associated resources deleted successfully!",
+      deletedUser: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+      },
     });
   } catch (err) {
     console.error("Error deleting user profile : ", err.message);
-    res.status(500).json({ message: "Internal server error!" });
+    res.status(500).send("Internal Server Error!");
   }
 };
 

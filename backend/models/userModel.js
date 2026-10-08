@@ -22,20 +22,6 @@ const UserSchema = new Schema({
       default: [],
     },
   ],
-  followedUsers: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      default: [],
-    },
-  ],
-  starRepos: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Repository",
-      default: [],
-    },
-  ],
 });
 
 const User = mongoose.model("User", UserSchema);
