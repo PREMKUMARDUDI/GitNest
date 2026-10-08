@@ -8,8 +8,10 @@ const createIssue = async (req, res) => {
   const { title, description, owner } = req.body;
 
   try {
+    const trimmedTitle = title ? title.trim() : "";
+
     const existingIssue = await Issue.findOne({
-      title: title.trim(),
+      title: trimmedTitle,
       repository: repoID,
     });
 
@@ -19,14 +21,21 @@ const createIssue = async (req, res) => {
       });
     }
 
+    const repository = await Repository.findById(repoID);
+    if (!repository) {
+      return res.status(404).send({ error: "Repository not found!" });
+    }
+
     const newIssue = new Issue({
-      title,
+      title: trimmedTitle,
       description,
       owner,
       repository: repoID,
     });
-
     await newIssue.save();
+
+    repository.issues.push(newIssue._id);
+    await repository.save();
 
     res.status(201).json(newIssue);
   } catch (err) {
@@ -43,7 +52,7 @@ const updateIssueById = async (req, res) => {
     const issue = await Issue.findById(id);
 
     if (!issue) {
-      res.status(404).send({ error: "Issue not found!" });
+      return res.status(404).send({ error: "Issue not found!" });
     }
 
     if (description) issue.description = description;
@@ -66,6 +75,10 @@ const deleteIssueById = async (req, res) => {
       return res.status(404).send({ error: "Issue not found!" });
     }
 
+    await Repository.findByIdAndUpdate(issue.repository, {
+      $pull: { issues: id },
+    });
+
     res
       .status(200)
       .json({ message: "Issue deleted successfully!", deletedIssue: issue });
@@ -79,9 +92,9 @@ const getAllIssuesByRepo = async (req, res) => {
   const { repoID } = req.params; // RepoID
 
   try {
-    const issues = await Issue.find({ repository: repoID }).populate(
-      "repository",
-    );
+    const issues = await Issue.find({ repository: repoID })
+      .populate("repository", "name description owner")
+      .populate("owner", "username email");
 
     if (!issues || issues.length === 0) {
       return res
@@ -99,8 +112,8 @@ const getAllIssuesByRepo = async (req, res) => {
 const getAllIssues = async (req, res) => {
   try {
     const issues = await Issue.find({})
-      .populate("repository")
-      .populate("owner");
+      .populate("repository", "name description owner")
+      .populate("owner", "username email");
 
     if (!issues || issues.length === 0) {
       return res.status(404).send({ error: "No Issues found!" });
@@ -121,7 +134,9 @@ const getAllIssuesForCurrentUser = async (req, res) => {
       return res.status(400).send("Invalid User ID!");
     }
 
-    const issues = await Issue.find({ owner: userID }).populate("repository");
+    const issues = await Issue.find({ owner: userID })
+      .populate("repository", "name description owner")
+      .populate("owner", "username email");
 
     if (!issues || issues.length === 0) {
       return res.status(404).send({ error: "No Issues found for this user!" });
@@ -150,6 +165,10 @@ const deleteAllIssuesByRepo = async (req, res) => {
     // Delete all issues in one go
     const deleteResult = await Issue.deleteMany({ repository: repoID });
 
+    await Repository.findByIdAndUpdate(repoID, {
+      $set: { issues: [] },
+    });
+
     return res.status(200).json({
       message: "All issues deleted successfully!",
       deletedCount: deleteResult.deletedCount,
@@ -165,8 +184,8 @@ const getIssueById = async (req, res) => {
 
   try {
     const issue = await Issue.findById(id)
-      .populate("repository")
-      .populate("owner");
+      .populate("repository", "name description owner")
+      .populate("owner", "username email");
 
     if (!issue) {
       return res.status(404).send({ error: "Issue not found!" });
