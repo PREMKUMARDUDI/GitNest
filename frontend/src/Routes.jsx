@@ -4,8 +4,7 @@ import { useNavigate, useRoutes } from "react-router-dom";
 //Pages List
 import Dashboard from "./components/dashboard/Dashboard.jsx";
 import Profile from "./components/user/Profile.jsx";
-import Login from "./components/auth/Login.jsx";
-import Signup from "./components/auth/Signup.jsx";
+import Auth from "./components/auth/Auth.jsx";
 import CreateRepo from "./components/repo/CreateRepo.jsx";
 import RepoDetails from "./components/repo/RepoDetails.jsx";
 import UpdateRepo from "./components/repo/UpdateRepo.jsx";
@@ -32,17 +31,11 @@ const ProjectRoutes = () => {
       setCurrentUser(userIdFromStorage);
     }
 
-    if (
-      !userIdFromStorage &&
-      !["/auth", "/signup"].includes(window.location.pathname)
-    ) {
+    if (!userIdFromStorage && !["/auth"].includes(window.location.pathname)) {
       navigate("/auth");
     }
 
-    if (
-      userIdFromStorage &&
-      ["/auth", "/signup"].includes(window.location.pathname)
-    ) {
+    if (userIdFromStorage && ["/auth"].includes(window.location.pathname)) {
       navigate("/");
     }
   }, [currentUser, navigate, setCurrentUser]);
@@ -58,11 +51,7 @@ const ProjectRoutes = () => {
     },
     {
       path: "/auth",
-      element: <Login />,
-    },
-    {
-      path: "/signup",
-      element: <Signup />,
+      element: <Auth />,
     },
     {
       path: "/repo/create",

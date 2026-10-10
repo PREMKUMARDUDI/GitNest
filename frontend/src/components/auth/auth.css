@@ -153,3 +153,92 @@
     width: 200px;
   }
 }
+
+/* Container to handle positioning for the password toggle position alignment */
+.password-input-container {
+  position: relative;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+}
+
+/* Extra right padding so text never scrolls underneath the icon layer */
+.input.password-field {
+  padding-right: 2.5rem;
+}
+
+/* Absolute positioned span exactly matching the styling behavior of your reference layout */
+.password-toggle-span {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8b949e;
+  user-select: none;
+  z-index: 2;
+  transition: color 0.2s ease;
+}
+
+.password-toggle-span:hover {
+  color: #f1f6fd;
+}
+
+/* Retains solid background color states continuously during loading sequences */
+.submit-btn,
+.submit-btn:disabled {
+  background-color: #238636 !important;
+  border: none;
+  width: 250px;
+  border-radius: 5px;
+  height: 35px;
+  color: #f1f6fd !important;
+  font-weight: 700;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1 !important;
+}
+
+.submit-btn:hover {
+  background-color: #499458 !important;
+  cursor: pointer;
+}
+
+.auth-error-msg {
+  background-color: rgba(248, 81, 73, 0.15);
+  border: 1px solid rgba(248, 81, 73, 0.4);
+  color: #ff7b72;
+  padding: 10px;
+  border-radius: 6px;
+  width: 250px;
+  font-size: 0.85rem;
+  text-align: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.signup-toggle-link {
+  color: #2b7df7;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.signup-toggle-link:hover {
+  text-decoration: underline;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
