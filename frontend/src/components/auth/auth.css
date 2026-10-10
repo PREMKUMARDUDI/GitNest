@@ -154,20 +154,36 @@
   }
 }
 
-/* Container to handle positioning for the password toggle position alignment */
+/* New: Enforce perfect structural boxing across all deployment spaces */
+.form-field-group {
+  width: 250px !important;
+  display: block;
+}
+
+/* Forces standard cross-browser pixel symmetry for inputs and structural wrappers */
+.static-width-field {
+  width: 250px !important;
+  max-width: 250px !important;
+  min-width: 250px !important;
+  box-sizing: border-box !important;
+}
+
+/* Fixes production layouts from expanding wrapper structures beyond base container values */
 .password-input-container {
   position: relative;
-  width: fit-content;
+  width: 250px !important;
+  max-width: 250px !important;
+  min-width: 250px !important;
   display: flex;
   align-items: center;
+  box-sizing: border-box !important;
 }
 
-/* Extra right padding so text never scrolls underneath the icon layer */
+/* Adjust layout so inner character text shifts smoothly before hitting the toggle boundaries */
 .input.password-field {
-  padding-right: 2.5rem;
+  padding-right: 2.5rem !important;
 }
 
-/* Absolute positioned span exactly matching the styling behavior of your reference layout */
 .password-toggle-span {
   position: absolute;
   right: 12px;
@@ -187,26 +203,42 @@
   color: #f1f6fd;
 }
 
-/* Retains solid background color states continuously during loading sequences */
+/* Button override layer checking core colors and loading indicators */
 .submit-btn,
 .submit-btn:disabled {
   background-color: #238636 !important;
-  border: none;
-  width: 250px;
-  border-radius: 5px;
-  height: 35px;
+  border: none !important;
+  border-radius: 5px !important;
+  height: 35px !important;
   color: #f1f6fd !important;
-  font-weight: 700;
-  padding: 0 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-weight: 700 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
   opacity: 1 !important;
 }
 
 .submit-btn:hover {
   background-color: #499458 !important;
-  cursor: pointer;
+  cursor: pointer !important;
+}
+
+/* Native CSS rotation fallback script running if Primer React bundles drop animation parameters */
+.submit-btn svg {
+  display: inline-flex !important;
+  align-self: center !important;
+  margin: 0 auto !important;
+  animation: spin 0.8s linear infinite !important;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .auth-error-msg {
@@ -216,6 +248,7 @@
   padding: 10px;
   border-radius: 6px;
   width: 250px;
+  box-sizing: border-box;
   font-size: 0.85rem;
   text-align: center;
   animation: fadeIn 0.3s ease-in-out;
@@ -240,5 +273,20 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* Retain media-query modifications for smaller smartphone displays */
+@media screen and (max-width: 400px) {
+  .login-box {
+    width: 200px;
+  }
+  .form-field-group,
+  .static-width-field,
+  .password-input-container,
+  .auth-error-msg {
+    width: 170px !important;
+    max-width: 170px !important;
+    min-width: 170px !important;
   }
 }

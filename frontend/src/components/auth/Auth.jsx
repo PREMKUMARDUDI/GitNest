@@ -17,7 +17,6 @@ const Auth = () => {
 
   const { setCurrentUser } = useAuth();
 
-  // Refs for pristine focus initialization when toggling screens
   const emailInputRef = useRef(null);
   const usernameInputRef = useRef(null);
 
@@ -28,7 +27,6 @@ const Auth = () => {
     setError("");
   };
 
-  // Automatically shifts initial focus to the first view-appropriate field
   useEffect(() => {
     clearInputFields();
     setShowPassword(false);
@@ -44,7 +42,6 @@ const Auth = () => {
     e.preventDefault();
     setError("");
 
-    // Blur active elements to lower mobile virtual keyboards smoothly on submit
     if (document.activeElement instanceof HTMLElement) {
       document.activeElement.blur();
     }
@@ -102,7 +99,7 @@ const Auth = () => {
           {error && <div className="auth-error-msg">{error}</div>}
 
           {isSignUp && (
-            <div>
+            <div className="form-field-group">
               <label className="label" htmlFor="Username">
                 Username
               </label>
@@ -111,7 +108,7 @@ const Auth = () => {
                 name="Username"
                 id="Username"
                 ref={usernameInputRef}
-                className="input"
+                className="input static-width-field"
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -120,7 +117,7 @@ const Auth = () => {
             </div>
           )}
 
-          <div>
+          <div className="form-field-group">
             <label className="label" htmlFor="Email">
               Email address
             </label>
@@ -129,7 +126,7 @@ const Auth = () => {
               name="Email"
               id="Email"
               ref={emailInputRef}
-              className="input"
+              className="input static-width-field"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -137,7 +134,7 @@ const Auth = () => {
             />
           </div>
 
-          <div>
+          <div className="form-field-group">
             <label className="label" htmlFor="Password">
               Password
             </label>
@@ -146,7 +143,7 @@ const Auth = () => {
                 autoComplete="off"
                 name="Password"
                 id="Password"
-                className="input password-field"
+                className="input password-field static-width-field"
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -195,12 +192,12 @@ const Auth = () => {
 
           <Button
             variant="primary"
-            className="submit-btn"
+            className="submit-btn static-width-field"
             type="submit"
             disabled={loading}
           >
             {loading ? (
-              <Spinner size="small" variant="transparent" />
+              <Spinner size="small" sx={{ color: "#f1f6fd" }} />
             ) : isSignUp ? (
               "Sign Up"
             ) : (
