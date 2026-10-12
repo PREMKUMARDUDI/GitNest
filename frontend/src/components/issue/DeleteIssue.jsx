@@ -1,21 +1,20 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useAuth } from "../../authContext";
 import { clientServer } from "../../serverConfig";
-import Navbar from "../Navbar";
+import Navbar from "../navbar/Navbar";
 import "./deleteIssue.css";
 
 const DeleteIssue = () => {
   const { id } = useParams();
+  const { currentUser } = useAuth();
+  const navigate = useNavigate();
+
   const [issue, setIssue] = useState({});
   const [repository, setRepository] = useState({});
 
-  const [isDeleteIssueWindowOpen, SetIsDeleteIssueWindowOpen] = useState(true);
-
-  const userId = localStorage.getItem("userId");
-
+  const [isDeleteIssueWindowOpen, setIsDeleteIssueWindowOpen] = useState(true);
   const [isLoadingIssue, setIsLoadingIssue] = useState(true);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchIssue = async () => {
@@ -37,10 +36,10 @@ const DeleteIssue = () => {
   }, [id]);
 
   useEffect(() => {
-    if (issue.owner && issue.owner._id !== userId) {
+    if (issue.owner?._id !== currentUser?._id) {
       navigate(`/issue/${id}`);
     }
-  }, [issue.repository, userId, id, navigate]);
+  }, [issue.repository, currentUser?._id, id, navigate]);
 
   const handleIssueDelete = async (e) => {
     e.preventDefault();
@@ -69,7 +68,7 @@ const DeleteIssue = () => {
       <div
         className="issueDelete_Container"
         onClick={() => {
-          SetIsDeleteIssueWindowOpen(false);
+          setIsDeleteIssueWindowOpen(false);
           navigate(`/issue/${id}`);
         }}
       >
@@ -82,7 +81,7 @@ const DeleteIssue = () => {
               <div
                 className="deleteIssueContainer_Collapse"
                 onClick={() => {
-                  SetIsDeleteIssueWindowOpen(false);
+                  setIsDeleteIssueWindowOpen(false);
                   navigate(`/issue/${id}`);
                 }}
               >

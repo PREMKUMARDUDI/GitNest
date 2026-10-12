@@ -1,17 +1,17 @@
-import React, { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useAuth } from "../../authContext";
 import { clientServer } from "../../serverConfig";
-import Navbar from "../Navbar";
+import Navbar from "../navbar/Navbar";
 import "./repoDetails.css";
 
 const RepoDetails = () => {
   const { repoId } = useParams();
-  const [repo, setRepo] = useState({});
-  const [issues, setIssues] = useState([]);
-
+  const { currentUser } = useAuth();
   const navigate = useNavigate();
 
-  const userId = localStorage.getItem("userId");
+  const [repo, setRepo] = useState({});
+  const [issues, setIssues] = useState([]);
 
   const [isLoadingRepo, setIsLoadingRepo] = useState(true);
   const [isLoadingIssues, setIsLoadingIssues] = useState(true);
@@ -112,13 +112,13 @@ const RepoDetails = () => {
         )}
 
         <div className="repo_Change_Navigates">
-          {repo.owner?._id === userId && (
+          {repo.owner?._id === currentUser?._id && (
             <div className="update_Repo" onClick={handleUpdate}>
               Update Repository
             </div>
           )}
 
-          {repo.owner?._id === userId && (
+          {repo.owner?._id === currentUser?._id && (
             <div className="delete_Repo" onClick={handleDelete}>
               Delete Repository
             </div>

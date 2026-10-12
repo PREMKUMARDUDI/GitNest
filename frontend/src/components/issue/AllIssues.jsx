@@ -1,42 +1,25 @@
-import React, { useState, useEffect, useMemo } from "react";
-import { clientServer } from "../../serverConfig";
-import Navbar from "../Navbar";
-import "./AllIssues.css";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../authContext";
-import { Link, useNavigate } from "react-router-dom";
+import { clientServer } from "../../serverConfig";
+import Navbar from "../navbar/Navbar";
+import "./AllIssues.css";
 
 const AllIssues = () => {
+  const { currentUser } = useAuth();
   const navigate = useNavigate();
+
   const [issues, setIssues] = useState([]);
   const [suggestedIssues, setSuggestedIssues] = useState([]);
-  const [userProfile, setUserProfile] = useState("");
+
   const [isLoadingIssues, setIsLoadingIssues] = useState(true);
   const [isLoadingSuggestedIssues, setIsLoadingSuggestedIssues] =
     useState(true);
 
   useEffect(() => {
-    const userId = localStorage.getItem("userId");
-
-    const fetchUserProfile = async () => {
-      try {
-        const res = await clientServer.get(`/userProfile/${userId}`);
-
-        const data = res.data;
-        setUserProfile(data);
-      } catch (err) {
-        console.error("Error fetching User Profile : ", err);
-      }
-    };
-
-    fetchUserProfile();
-  }, []);
-
-  useEffect(() => {
-    const userId = localStorage.getItem("userId");
-
     const fetchIssues = async () => {
       try {
-        const res = await clientServer.get(`/issue/user/${userId}`);
+        const res = await clientServer.get(`/issue/user`);
 
         const issues = res.data;
         setIssues(issues.reverse());
@@ -54,7 +37,7 @@ const AllIssues = () => {
 
         const allIssues = res.data;
         const suggestedIssues = allIssues?.filter(
-          (issue) => issue.owner?._id !== userId,
+          (issue) => issue.owner?._id !== currentUser?._id,
         );
         setSuggestedIssues(suggestedIssues.reverse());
         setIsLoadingSuggestedIssues(false);

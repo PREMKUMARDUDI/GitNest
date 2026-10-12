@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { clientServer } from "../../serverConfig";
 import { useAuth } from "../../authContext";
 import { PageHeader, Box, Button, Spinner } from "@primer/react";
@@ -6,6 +7,9 @@ import logo from "../../assets/github-mark-white.svg";
 import "./auth.css";
 
 const Auth = () => {
+  const { getUserProfile } = useAuth();
+  const navigate = useNavigate();
+
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -14,8 +18,6 @@ const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
-  const { setCurrentUser } = useAuth();
 
   const emailInputRef = useRef(null);
   const usernameInputRef = useRef(null);
@@ -61,10 +63,10 @@ const Auth = () => {
       const res = await clientServer.post(endpoint, payload);
 
       localStorage.setItem("token", res.data.token);
-      localStorage.setItem("userId", res.data.user.id);
 
-      setCurrentUser(res.data.user.id);
-      window.location.href = "/";
+      await getUserProfile();
+
+      navigate("/");
     } catch (err) {
       console.error(err);
       setPassword("");

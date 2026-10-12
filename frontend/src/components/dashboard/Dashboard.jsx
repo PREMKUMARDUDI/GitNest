@@ -1,46 +1,26 @@
-import React, { useState, useEffect, useMemo } from "react";
-import { clientServer } from "../../serverConfig";
-import Navbar from "../Navbar";
-import "./dashboard.css";
-import { useAuth } from "../../authContext";
+import { useState, useEffect, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../authContext";
+import { clientServer } from "../../serverConfig";
+import Navbar from "../navbar/Navbar";
+import "./dashboard.css";
 
 const Dashboard = () => {
+  const { currentUser } = useAuth();
+  const navigate = useNavigate();
+
   const [repositories, setRepositories] = useState([]);
   const [suggestedRepos, setSuggestedRepos] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchQuery2, setSearchQuery2] = useState("");
 
-  const { setCurrentUser } = useAuth();
-  const [userProfile, setUserProfile] = useState("");
-
   const [isLoadingUserRepos, setIsLoadingUserRepos] = useState(true);
   const [isLoadingSuggestedRepos, setIsLoadingSuggestedRepos] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    const userId = localStorage.getItem("userId");
-
-    const fetchUserProfile = async () => {
-      try {
-        const res = await clientServer.get(`/userProfile/${userId}`);
-
-        const data = res.data;
-        setUserProfile(data);
-      } catch (err) {
-        console.error("Error fetching User Profile : ", err);
-      }
-    };
-
-    fetchUserProfile();
-  }, []);
-
-  useEffect(() => {
-    const userId = localStorage.getItem("userId");
-
     const fetchRepositories = async () => {
       try {
-        const res = await clientServer.get(`/repo/user/${userId}`);
+        const res = await clientServer.get(`/repo/user`);
 
         const data = res.data;
         setRepositories(data.repositories.reverse());
@@ -59,7 +39,7 @@ const Dashboard = () => {
         const data = res.data;
 
         const otherRepos = data.repositories?.filter(
-          (repo) => repo.owner?._id !== userId,
+          (repo) => repo.owner?._id !== currentUser?._id,
         );
 
         setSuggestedRepos(otherRepos);
@@ -164,7 +144,7 @@ const Dashboard = () => {
               <div className="searchResult_item" key={repo._id}>
                 <img src="copilot.png" alt="" />
                 <Link to={`/repo/${repo._id}`}>
-                  {userProfile.username}/{repo.name}
+                  {currentUser?.username}/{repo.name}
                 </Link>
               </div>
             );

@@ -1,21 +1,20 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useAuth } from "../../authContext";
 import { clientServer } from "../../serverConfig";
-import Navbar from "../Navbar";
+import Navbar from "../navbar/Navbar";
 import "./updateRepo.css";
 
 const UpdateRepo = () => {
   const { repoId } = useParams();
-  const [repo, setRepo] = useState({});
+  const { currentUser } = useAuth();
+  const navigate = useNavigate();
 
+  const [repo, setRepo] = useState({});
   const [description, setDescription] = useState("");
   const [visibility, setVisibility] = useState(true);
 
-  const userId = localStorage.getItem("userId");
-
   const [isLoadingRepo, setIsLoadingRepo] = useState(true);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRepository = async () => {
@@ -25,21 +24,22 @@ const UpdateRepo = () => {
         setIsLoadingRepo(false);
         setDescription(res.data.description || "");
         setVisibility(
-          res.data.visibility !== undefined ? res.data.visibility : true
+          res.data.visibility !== undefined ? res.data.visibility : true,
         );
       } catch (err) {
         console.error("Error fetching repository details : ", err);
         setIsLoadingRepo(false);
       }
     };
+
     if (repoId) fetchRepository();
   }, [repoId]);
 
   useEffect(() => {
-    if (repo.owner && repo.owner._id !== userId) {
+    if (repo.owner?._id === currentUser?._id) {
       navigate(`/repo/${repoId}`);
     }
-  }, [repo.owner, userId, repoId, navigate]);
+  }, [repo.owner, currentUser?._id, repoId, navigate]);
 
   const handleUpdate = async (e) => {
     e.preventDefault();

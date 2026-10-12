@@ -1,48 +1,23 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { clientServer } from "../serverConfig";
-import { Link } from "react-router-dom";
+import { useAuth } from "../../authContext";
+import { clientServer } from "../../serverConfig.jsx";
 import "./navbar.css";
-import { useAuth } from "../authContext";
 
 const Navbar = () => {
-  const [isChecked, setIsChecked] = useState(false);
-  const [isChecked2, setIsChecked2] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isCreateNewOpen, setIsCreateNewOpen] = useState(false);
-  const [isIssueOpen, setIsIssueOpen] = useState(false);
-  const [isPullRequestOpen, setIsPullRequestOpen] = useState(false);
-  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const { currentUser, logout } = useAuth();
+  const navigate = useNavigate();
 
   const [suggestedRepos, setSuggestedRepos] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
-  const navigate = useNavigate();
-
-  const { setCurrentUser } = useAuth();
-  const [userProfile, setUserProfile] = useState("");
-
-  useEffect(() => {
-    const userId = localStorage.getItem("userId");
-
-    const fetchUserProfile = async () => {
-      try {
-        const res = await clientServer.get(`/userProfile/${userId}`);
-
-        const data = res.data;
-        setUserProfile(data);
-      } catch (err) {
-        console.error("Error fetching User Profile : ", err);
-      }
-    };
-
-    fetchUserProfile();
-  }, []);
+  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked2, setIsChecked2] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isCreateNewOpen, setIsCreateNewOpen] = useState(false);
 
   useEffect(() => {
-    const userId = localStorage.getItem("userId");
-
     const fetchSuggestedRepositories = async () => {
       try {
         const res = await clientServer.get(`/repo/all`);
@@ -88,18 +63,6 @@ const Navbar = () => {
 
   const handleCreateNewWindow = () => {
     setIsCreateNewOpen(!isCreateNewOpen);
-  };
-
-  const handleIssueWindow = () => {
-    setIsIssueOpen(!isIssueOpen);
-  };
-
-  const handlePullRequestWindow = () => {
-    setIsPullRequestOpen(!isPullRequestOpen);
-  };
-
-  const handleNotificationWindow = () => {
-    setIsNotificationOpen(!isNotificationOpen);
   };
 
   return (
@@ -226,10 +189,8 @@ const Navbar = () => {
             <div
               className="left-menu-item"
               onClick={() => {
-                localStorage.removeItem("token");
-                localStorage.removeItem("userId");
-                setCurrentUser(null);
-                window.location.href = "/auth";
+                logout();
+                navigate("/auth");
               }}
             >
               <svg
@@ -429,25 +390,19 @@ const Navbar = () => {
             style={{ width: "1rem", height: "1rem" }}
           />
 
-          {!isIssueOpen && (
-            <div className="issue_InfoContainer">Your issues</div>
-          )}
+          <div className="issue_InfoContainer">Your issues</div>
         </div>
         <div className="pullRequests">
           <img src="/pullRequest.png" alt="" />
 
-          {!isPullRequestOpen && (
-            <div className="pullRequests_InfoContainer">Your pull requests</div>
-          )}
+          <div className="pullRequests_InfoContainer">Your pull requests</div>
         </div>
         <div className="notification">
           <img src="/notification.png" alt="" />
 
-          {!isNotificationOpen && (
-            <div className="notifications_InfoContainer">
-              You have no unread notifications
-            </div>
-          )}
+          <div className="notifications_InfoContainer">
+            You have no unread notifications
+          </div>
         </div>
         <input
           type="checkbox"
@@ -468,7 +423,7 @@ const Navbar = () => {
               >
                 <img src="/copilot.png" alt="GitHub Logo" />
               </div>
-              <span>{userProfile.username}</span>
+              <span>{currentUser?.username}</span>
             </div>
             <div
               className="right-menu-collapse"
@@ -631,10 +586,8 @@ const Navbar = () => {
             <div
               className="right-menu-item"
               onClick={() => {
-                localStorage.removeItem("token");
-                localStorage.removeItem("userId");
-                setCurrentUser(null);
-                window.location.href = "/auth";
+                logout();
+                navigate("/auth");
               }}
             >
               <svg

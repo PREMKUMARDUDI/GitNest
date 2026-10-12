@@ -1,42 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { clientServer } from "../../serverConfig";
-import "./profile.css";
-import Navbar from "../Navbar";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../authContext";
+import { clientServer } from "../../serverConfig";
+import Navbar from "../navbar/Navbar";
+import "./profile.css";
 
 const Profile = () => {
+  const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
+
   const [repositories, setRepositories] = useState([]);
-  const [userDetails, setUserDetails] = useState({ username: "Username" });
-  const { setCurrentUser } = useAuth();
   const [isLoadingUserRepos, setIsLoadingUserRepos] = useState(true);
-  const [isLoadingUser, setIsLoadingUser] = useState(true);
 
   useEffect(() => {
-    const fetchUserDetails = async () => {
-      const userId = localStorage.getItem("userId");
-
-      if (userId) {
-        try {
-          const response = await clientServer.get(`/userProfile/${userId}`);
-          setUserDetails(response.data);
-          setIsLoadingUser(false);
-        } catch (err) {
-          console.error("Error fetching user details : ", err);
-          setIsLoadingUser(false);
-        }
-      }
-    };
-    fetchUserDetails();
-  }, []);
-
-  useEffect(() => {
-    const userId = localStorage.getItem("userId");
-
     const fetchRepositories = async () => {
       try {
-        const res = await clientServer.get(`/repo/user/${userId}`);
+        const res = await clientServer.get(`/repo/user`);
 
         const data = res.data;
         setRepositories(data.repositories.reverse());
@@ -51,7 +30,7 @@ const Profile = () => {
     fetchRepositories();
   }, []);
 
-  if (isLoadingUser || isLoadingUserRepos) {
+  if (!currentUser || isLoadingUserRepos) {
     return (
       <div style={{ marginLeft: "2rem" }}>
         <h2>Loading...</h2>
@@ -74,7 +53,9 @@ const Profile = () => {
               />
             </div>
             <div className="name">
-              <h3 style={{ textAlign: "center" }}>{userDetails.username}</h3>
+              <h3 style={{ textAlign: "center" }}>
+                {currentUser ? currentUser.username : "Username"}
+              </h3>
             </div>
             <div className="follower">
               <p>{Math.floor(Math.random() * 50) + 20} Follower</p>
@@ -143,9 +124,7 @@ const Profile = () => {
         </button>
         <button
           onClick={() => {
-            localStorage.removeItem("token");
-            localStorage.removeItem("userId");
-            setCurrentUser(null);
+            logout();
             navigate("/auth");
           }}
           style={{ position: "absolute", bottom: "50px", right: "70px" }}

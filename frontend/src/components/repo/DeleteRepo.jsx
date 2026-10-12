@@ -1,22 +1,20 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useAuth } from "../../authContext";
 import { clientServer } from "../../serverConfig";
-import Navbar from "../Navbar";
+import Navbar from "../navbar/Navbar";
 import "./deleteRepo.css";
 
 const DeleteRepo = () => {
   const { repoId } = useParams();
+  const { currentUser } = useAuth();
+  const navigate = useNavigate();
+
   const [repo, setRepo] = useState({});
-  const [issues, setIssues] = useState([]);
-
-  const [isDeleteWindowOpen, SetIsDeleteWindowOpen] = useState(true);
-
-  const userId = localStorage.getItem("userId");
 
   const [isLoadingRepo, setIsLoadingRepo] = useState(true);
   const [isLoadingIssues, setIsLoadingIssues] = useState(true);
-
-  const navigate = useNavigate();
+  const [isDeleteWindowOpen, SetIsDeleteWindowOpen] = useState(true);
 
   useEffect(() => {
     const fetchRepository = async () => {
@@ -30,29 +28,14 @@ const DeleteRepo = () => {
       }
     };
 
-    const fetchIssues = async () => {
-      try {
-        const res = await clientServer.get(`/issue/all/${repoId}`);
-        setIssues(res.data);
-        setIsLoadingIssues(false);
-        console.log("repository issues : ", res.data);
-      } catch (err) {
-        console.error("Error fetching repository issues : ", err);
-        setIsLoadingIssues(false);
-      }
-    };
-
-    if (repoId) {
-      fetchRepository();
-      fetchIssues();
-    }
+    if (repoId) fetchRepository();
   }, [repoId]);
 
   useEffect(() => {
-    if (repo.owner && repo.owner._id !== userId) {
+    if (repo.owner?._id === currentUser?._id) {
       navigate(`/repo/${repoId}`);
     }
-  }, [repo.owner, userId, repoId, navigate]);
+  }, [repo.owner, currentUser?._id, repoId, navigate]);
 
   const handleDelete = async (e) => {
     e.preventDefault();

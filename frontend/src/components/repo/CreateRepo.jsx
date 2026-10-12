@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../authContext";
 import { clientServer } from "../../serverConfig";
-import Navbar from "../Navbar";
+import Navbar from "../navbar/Navbar";
 import "./createRepo.css";
 
 const CreateRepo = () => {
+  const { currentUser } = useAuth();
+  const navigate = useNavigate();
+
   const [repoName, setRepoName] = useState("");
   const [description, setDescription] = useState("");
   const [visibility, setVisibility] = useState(true);
@@ -15,39 +19,13 @@ const CreateRepo = () => {
   const [formError, setFormError] = useState("");
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
-  const navigate = useNavigate();
-
-  const [userProfile, setUserProfile] = useState("");
-
-  useEffect(() => {
-    const userId = localStorage.getItem("userId");
-
-    const fetchUserProfile = async () => {
-      try {
-        const res = await clientServer.get(`/userProfile/${userId}`);
-
-        const data = res.data;
-        console.log("userProfile : ", data);
-        setUserProfile(data);
-      } catch (err) {
-        console.error("Error fetching User Profile : ", err);
-        setFormError(
-          "Error fetching user information. Please try again later."
-        );
-      }
-    };
-
-    fetchUserProfile();
-  }, []);
-
-  // This effect triggers redirect 1 seconds after a successful submit
   useEffect(() => {
     if (submitSuccess) {
       const timer = setTimeout(() => {
         navigate("/");
-      }, 1000); // 1 seconds delay; adjust as needed
+      }, 1000);
 
-      return () => clearTimeout(timer); // cleanup in case component unmounts
+      return () => clearTimeout(timer);
     }
   }, [submitSuccess, navigate]);
 
@@ -61,7 +39,7 @@ const CreateRepo = () => {
       setFormError("Repository name is required!");
       return;
     }
-    if (!userProfile || !userProfile._id) {
+    if (!currentUser || !currentUser?._id) {
       setFormError("User information not loaded. Cannot create repository.");
       return;
     }
@@ -76,7 +54,6 @@ const CreateRepo = () => {
         name: repoName,
         description,
         visibility,
-        owner: userProfile._id,
         content: [],
         issues: [],
       });
@@ -120,7 +97,7 @@ const CreateRepo = () => {
               <div className="select_Owner">
                 <select id="owner" name="owner">
                   <option value="">Select Owner</option>
-                  <option value="">{userProfile.username}</option>
+                  <option value="">{currentUser?.username}</option>
                 </select>
                 <img src="/downArrow.png" alt="" />
               </div>

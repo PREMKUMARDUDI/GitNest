@@ -1,40 +1,23 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { clientServer } from "../../serverConfig";
-import Navbar from "../Navbar";
+import { useAuth } from "../../authContext";
+import Navbar from "../navbar/Navbar";
 import "./createIssue.css";
 
 const CreateIssue = () => {
+  const navigate = useNavigate();
   const { repoId } = useParams();
+  const { currentUser } = useAuth();
+
   const [selectedRepo, setSelectedRepo] = useState({});
   const [isCreateIssueOpen, setIsCreateIssueOpen] = useState(true);
 
-  const [userProfile, setUserProfile] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
   const [formError, setFormError] = useState("");
   const [submitSuccess, setSubmitSuccess] = useState(false);
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const userId = localStorage.getItem("userId");
-
-    const fetchUserProfile = async () => {
-      try {
-        const res = await clientServer.get(`/userProfile/${userId}`);
-
-        const data = res.data;
-        setUserProfile(data);
-        console.log("currUser : ", data);
-      } catch (err) {
-        console.error("Error fetching User Profile : ", err);
-      }
-    };
-
-    fetchUserProfile();
-  }, []);
 
   useEffect(() => {
     const fetchSelectedRepo = async () => {
@@ -72,7 +55,7 @@ const CreateIssue = () => {
       setFormError("Title is required!");
       return;
     }
-    if (!userProfile || !userProfile._id) {
+    if (!currentUser || !currentUser?._id) {
       setFormError("User information not loaded. Cannot create repository.");
       return;
     }
@@ -85,7 +68,6 @@ const CreateIssue = () => {
       const res = await clientServer.post(`/issue/create/${repoId}`, {
         title,
         description,
-        owner: userProfile._id,
       });
 
       console.log("Issue created:", res);

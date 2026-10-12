@@ -1,21 +1,19 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useAuth } from "../../authContext";
 import { clientServer } from "../../serverConfig";
-import Navbar from "../Navbar";
+import Navbar from "../navbar/Navbar";
 import "./updateIssue.css";
 
 const UpdateIssue = () => {
   const { id } = useParams();
-  const [issue, setIssue] = useState({});
+  const { currentUser } = useAuth();
+  const navigate = useNavigate();
 
+  const [issue, setIssue] = useState({});
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("open");
-
-  const userId = localStorage.getItem("userId");
-
   const [isLoadingIssue, setIsLoadingIssue] = useState(true);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchSelectedIssue = async () => {
@@ -38,10 +36,10 @@ const UpdateIssue = () => {
   }, [id]);
 
   useEffect(() => {
-    if (issue.owner && issue.owner._id !== userId) {
+    if (issue.owner?._id !== currentUser?._id) {
       navigate(`/issue/${id}`);
     }
-  }, [issue.repository, userId, id, navigate]);
+  }, [issue.repository, currentUser?._id, id, navigate]);
 
   const handleIssueUpdate = async (e) => {
     e.preventDefault();

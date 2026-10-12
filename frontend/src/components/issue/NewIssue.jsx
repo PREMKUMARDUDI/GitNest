@@ -1,41 +1,20 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { clientServer } from "../../serverConfig";
+import Navbar from "../navbar/Navbar";
 import "./newIssue.css";
-import Navbar from "../Navbar";
 
 const NewIssue = () => {
+  const navigate = useNavigate();
+
   const [isNewIssueOpen, setIsNewIssueOpen] = useState(true);
   const [repositories, setRepositories] = useState([]);
-  const [userProfile, setUserProfile] = useState("");
   const [isRepoListOpen, setIsRepoListOpen] = useState(false);
   const [selectedRepo, setSelectedRepo] = useState({});
 
   const [isLoadingRepos, setIsLoadingRepos] = useState(true);
 
-  const navigate = useNavigate();
-
   useEffect(() => {
-    const userId = localStorage.getItem("userId");
-
-    const fetchUserProfile = async () => {
-      try {
-        const res = await clientServer.get(`/userProfile/${userId}`);
-
-        const data = res.data;
-        setUserProfile(data);
-        console.log("currUser : ", data);
-      } catch (err) {
-        console.error("Error fetching User Profile : ", err);
-      }
-    };
-
-    fetchUserProfile();
-  }, []);
-
-  useEffect(() => {
-    const userId = localStorage.getItem("userId");
-
     const fetchRepositories = async () => {
       try {
         const res = await clientServer.get(`/repo/all`);

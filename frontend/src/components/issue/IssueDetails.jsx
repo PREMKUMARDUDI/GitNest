@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "../../authContext";
 import { clientServer } from "../../serverConfig";
-import Navbar from "../Navbar";
+import Navbar from "../navbar/Navbar";
 import "./issueDetails.css";
 
 const IssueDetails = () => {
   const { id } = useParams();
+  const { currentUser } = useAuth();
+  const navigate = useNavigate();
+
   const [issue, setIssue] = useState({});
   const [repository, setRepository] = useState({});
 
-  const userId = localStorage.getItem("userId");
-
   const [isLoadingIssue, setIsLoadingIssue] = useState(true);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchSelectedIssue = async () => {
@@ -81,7 +81,7 @@ const IssueDetails = () => {
         </div>
 
         <div className="issue_Change_Navigates">
-          {issue.owner?._id === userId && (
+          {issue.owner?._id === currentUser?._id && (
             <div
               className="update_Issue"
               onClick={() => {
@@ -92,7 +92,7 @@ const IssueDetails = () => {
             </div>
           )}
 
-          {issue.owner?._id === userId && (
+          {issue.owner?._id === currentUser?._id && (
             <div
               className="delete_Issue"
               onClick={() => {
