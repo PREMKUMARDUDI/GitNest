@@ -92,12 +92,12 @@ node index.js terminate                   # DANGER: Delete repo locally and on S
 
 ## 🛠️ Tech Stack
 
-- **Frontend:** React (Hooks, Context), CSS Modules
+- **Frontend:** React (Hooks, Context), Vite
 - **Backend:** Node.js, Express.js
 - **Database:** MongoDB (Mongoose)
 - **Authentication:** JWT, bcrypt
 - **Routing:** React Router
-- **S3 Storage:** AWS S3 for remote backup of repo objects
+- **S3 Storage:** AWS S3 for remote backup of pushed files and folders
 - **Git Engine:** Custom CLI commands built with yargs and Node’s fs module
 
 ## 📁 Project Structure
@@ -123,46 +123,51 @@ GitNest/
 │ │ └── issueModel.js           # Issue tracking system
 │ ├── routes/                   # API endpoint definitions
 │ │ └── main.router.js          # Central routing configuration
+│ │ └── user.router.js          # User routes configuration
+│ │ └── repo.router.js          # Repository routes configuration
+│ │ └── issue.router.js         # Issue routes configuration
 │ ├── index.js                  # Server entry point with CLI
 │ ├── package.json              # Backend dependencies
 │ └── .gitignore                # Git ignore rules
 │
 │── frontend/                   # React Application
 │ ├── public/                   # Static assets
-│ │ └── index.html              # HTML template
 │ ├── src/                      # Source code
+│ │ ├── assets/                 # Static resources
 │ │ ├── components/             # Reusable UI components
 │ │ │ ├── auth/                 # Authentication components
-│ │ │ │ ├── Login.jsx           # User login interface
-│ │ │ │ ├── Signup.jsx          # User registration
-│ │ │ │ └── auth.css            # Authentication styles
+│ │ │ │ ├── Auth.jsx            # Authentication component
+│ │ │ ├── dashboard/            # Main dashboard
+│ │ │ │ ├── Dashboard.jsx       # User dashboard
+│ │ │ ├── issue/                # Issue management
+│ │ │ │ ├── AllIssues.jsx       # Issue listing
+│ │ │ │ ├── CreateIssue.jsx     # Issue creation
+│ │ │ │ ├── DeleteIssue.jsx     # Issue deletion
+│ │ │ │ ├── IssueDetails.jsx    # Issue details
+│ │ │ │ ├── NewIssue.jsx        # Issue creation
+│ │ │ │ └── UpdateIssue.jsx     # Issue updates
+│ │ │ ├── navbar/               # User management
+│ │ │ │ └── Navbar.jsx          # Navigation component
+│ │ │ ├── notFound/             # Not Found page
+│ │ │ │ └── NotFound.jsx        # 404 error page
 │ │ │ ├── repo/                 # Repository management
 │ │ │ │ ├── CreateRepo.jsx      # Repository creation
 │ │ │ │ ├── DeleteRepo.jsx      # Repository deletion
 │ │ │ │ ├── RepoDetails.jsx     # Repository details
 │ │ │ │ └── UpdateRepo.jsx      # Repository updates
-│ │ │ │ └── auth.css            # Authentication styles
-│ │ │ ├── issue/                # Issue management
-│ │ │ │ ├── CreateIssue.jsx     # Issue creation
-│ │ │ │ ├── DeleteIssue.jsx     # Issue deletion
-│ │ │ │ ├── IssueDetails.jsx    # Issue details
-│ │ │ │ └── UpdateIssue.jsx     # Issue updates
-│ │ │ ├── dashboard/            # Main dashboard
-│ │ │ │ ├── Dashboard.jsx       # User dashboard
-│ │ │ │ └── dashboard.css       # Dashboard styles
 │ │ │ ├── user/                 # User management
-│ │ │ ├── Navbar.jsx            # Navigation component
-│ │ │ └── NotFound.jsx          # 404 error page
-│ │ ├── assets/                 # Static resources
-│ │ ├── Routes.jsx              # Application routing
+│ │ │ │ └── Profile.jsx         # User profile
 │ │ ├── authContext.jsx         # Authentication context
-│ │ ├── serverConfig.jsx        # Backend Server configuration
-│ │ ├── main.jsx                # React entry point
 │ │ └── index.css               # Global styles
-│ ├── vite.config.js            # Vite build configuration
-│ ├── eslint.config.js          # ESLint configuration
-│ ├── package.json              # Frontend dependencies
+│ │ ├── main.jsx                # React entry point
+│ │ ├── Routes.jsx              # Application routing
+│ │ ├── serverConfig.jsx        # Backend Server configuration
 │ └── .gitignore                # Git ignore rules
+│ ├── eslint.config.js          # ESLint configuration
+│ ├── index.html                # HTML template
+│ ├── package-lock.json         # Frontend dependencies lock
+│ ├── package.json              # Frontend dependencies
+│ ├── vite.config.js            # Vite build configuration
 └──README.md
 
 ```
@@ -176,32 +181,32 @@ GitNest/
 
 ### Profile Management
 
-- `GET /userProfile/:id` - Fetch user and profile data by ID
 - `GET /allUsers` - Fetch all users
-- `PUT /updateProfile/:id` - Update user information by ID
-- `DELETE /deleteProfile/:id` - Delete user by ID
+- `GET /userProfile` - Fetch userProfile data for authenticated user
+- `PUT /updateProfile` - Update userProfile data for authenticated user
+- `DELETE /deleteProfile` - Delete userProfile data for authenticated user
 
 ### Repository Management
 
-- `POST /repo/create` — Create a repository
+- `POST /repo/create` — Create a repository for authenticated user
 - `GET /repo/all` — Get all repositories
 - `GET /repo/:id` — Get repository by ID
 - `GET /repo/name/:name` — Get repository by Username
-- `GET /repo/user/:userID` — Get all repositories for user by userID
-- `PUT /repo/update/:id` — Update a repository by ID
-- `PATCH /repo/toggle/:id` — Update visibility for repository by ID
-- `DELETE /repo/delete/:id` — Delete a repository by ID (also deletes its issues)
+- `GET /repo/user` — Get all repositories for authenticated user
+- `PUT /repo/update/:id` — Update a repository by ID for authenticated user
+- `PATCH /repo/toggle/:id` — Update visibility for repository by ID for authenticated user
+- `DELETE /repo/delete/:id` — Delete a repository by ID (also deletes its issues) for authenticated user
 
 ### Issue Management
 
-- `POST /issue/create/:repoID` — Create an issue for a repository
+- `POST /issue/create/:repoID` — Create an issue for a repository for authenticated user
 - `GET /issue/:id` — Get a single issue by ID
 - `GET /issue/all` — List all issues
 - `GET /issue/all/:repoID` — List all issues for a repository
-- `GET /issue/user/:userID` — List all issues for user by userID
-- `PUT /issue/update/:id` — Update an issue by ID
-- `DELETE /issue/delete/:id` — Delete a single issue by ID
-- `DELETE /issue/delete/all/:repoID` — Delete all issues for a repository
+- `GET /issue/user` — List all issues for authenticated user
+- `PUT /issue/update/:id` — Update an issue by ID for authenticated user
+- `DELETE /issue/delete/:id` — Delete a single issue by ID for authenticated user
+- `DELETE /issue/delete/all/:repoID` — Delete all issues for a repository of authenticated user
 
 ## 📊 Database Schema
 
@@ -212,9 +217,7 @@ GitNest/
   username: String (required, unique),
   email: String (required, unique),
   password: String (required, hashed),
-  repositories: [Schema.Types.ObjectId (ref: "Repository")],
-  followedUsers: [Schema.Types.ObjectId (ref: "User")],
-  starRepos: [Schema.Types.ObjectId (ref: "Repository")]
+  repositories: [Schema.Types.ObjectId (ref: "Repository")]
 }
 ```
 
@@ -227,7 +230,7 @@ GitNest/
   content: [],
   visibility: Boolean,
   owner: Schema.Types.ObjectId (ref: "User"),
-  issues: Schema.Types.ObjectID (ref: "Issue")
+  issues: [Schema.Types.ObjectID (ref: "Issue")]
 }
 ```
 
