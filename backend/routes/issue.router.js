@@ -3,6 +3,12 @@ const issueController = require("../controllers/issueController");
 const protect = require("../middleware/authMiddleware");
 const issueRouter = express.Router();
 
+issueRouter.get("/issue/all", issueController.getAllIssues);
+issueRouter.get(
+  "/issue/user",
+  protect,
+  issueController.getAllIssuesForCurrentUser,
+);
 issueRouter.post("/issue/create/:repoID", protect, issueController.createIssue);
 issueRouter.put("/issue/update/:id", protect, issueController.updateIssueById);
 issueRouter.delete(
@@ -11,12 +17,6 @@ issueRouter.delete(
   issueController.deleteIssueById,
 );
 issueRouter.get("/issue/all/:repoID", issueController.getAllIssuesByRepo);
-issueRouter.get("/issue/all", issueController.getAllIssues);
-issueRouter.get(
-  "/issue/user",
-  protect,
-  issueController.getAllIssuesForCurrentUser,
-);
 issueRouter.delete(
   "/issue/delete/all/:repoID",
   protect,

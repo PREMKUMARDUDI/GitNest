@@ -5,13 +5,13 @@ const repoRouter = express.Router();
 
 repoRouter.post("/repo/create", protect, repoController.createRepository);
 repoRouter.get("/repo/all", repoController.getAllRepositories);
-repoRouter.get("/repo/:id", repoController.fetchRepositoryById);
-repoRouter.get("/repo/name/:name", repoController.fetchRepositoryByName);
 repoRouter.get(
   "/repo/user",
   protect,
   repoController.fetchRepositoriesForCurrentUser,
 );
+repoRouter.get("/repo/:id", repoController.fetchRepositoryById);
+repoRouter.get("/repo/name/:name", repoController.fetchRepositoryByName);
 repoRouter.put(
   "/repo/update/:id",
   protect,
