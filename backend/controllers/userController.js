@@ -45,11 +45,6 @@ const signup = async (req, res) => {
     res.status(201).json({
       message: "User created successfully!",
       token,
-      user: {
-        id: newUser._id,
-        username: newUser.username,
-        email: newUser.email,
-      },
     });
   } catch (err) {
     console.error("Error during signup : ", err.message);
@@ -86,11 +81,6 @@ const login = async (req, res) => {
     res.status(200).json({
       message: "Login successful!",
       token,
-      user: {
-        id: user._id,
-        username: user.username,
-        email: user.email,
-      },
     });
   } catch (err) {
     console.error("Error during login : ", err.message);
@@ -114,13 +104,9 @@ const getAllUsers = async (req, res) => {
 };
 
 const getUserProfile = async (req, res) => {
-  const currentUserID = req.params.id;
+  const currentUserID = req.user.id;
 
   try {
-    if (!mongoose.Types.ObjectId.isValid(currentUserID)) {
-      return res.status(400).send({ error: "Invalid User ID!" });
-    }
-
     const user = await User.findById(currentUserID).select("-password");
 
     if (!user) {
@@ -135,14 +121,10 @@ const getUserProfile = async (req, res) => {
 };
 
 const updateUserProfile = async (req, res) => {
-  const currentUserID = req.params.id;
+  const currentUserID = req.user.id;
   const { email, password } = req.body;
 
   try {
-    if (!mongoose.Types.ObjectId.isValid(currentUserID)) {
-      return res.status(400).send({ error: "Invalid User ID!" });
-    }
-
     const user = await User.findById(currentUserID);
     if (!user) {
       return res.status(404).send({ error: "User not found!" });
@@ -172,13 +154,9 @@ const updateUserProfile = async (req, res) => {
 };
 
 const deleteUserProfile = async (req, res) => {
-  const currentUserID = req.params.id;
+  const currentUserID = req.user.id;
 
   try {
-    if (!mongoose.Types.ObjectId.isValid(currentUserID)) {
-      return res.status(400).send({ error: "Invalid User ID!" });
-    }
-
     const user = await User.findById(currentUserID);
     if (!user) {
       return res.status(404).send({ error: "User not found!" });

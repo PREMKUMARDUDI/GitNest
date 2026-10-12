@@ -4,11 +4,19 @@ const User = require("../models/userModel");
 const Issue = require("../models/issueModel");
 
 const createIssue = async (req, res) => {
-  const { repoID } = req.params; // RepoID
-  const { title, description, owner } = req.body;
+  const userId = req.user.id;
+  const { repoID } = req.params;
+  const { title, description } = req.body;
 
   try {
+    if (!mongoose.Types.ObjectId.isValid(repoID)) {
+      return res.status(400).json({ error: "Invalid Repository ID format!" });
+    }
+
     const trimmedTitle = title ? title.trim() : "";
+    if (!trimmedTitle) {
+      return res.status(400).json({ error: "Issue title is required!" });
+    }
 
     const existingIssue = await Issue.findOne({
       title: trimmedTitle,
@@ -21,7 +29,7 @@ const createIssue = async (req, res) => {
       });
     }
 
-    const repository = await Repository.findById(repoID);
+    const repository = await Repository.findById(repoID).lean();
     if (!repository) {
       return res.status(404).send({ error: "Repository not found!" });
     }
@@ -29,13 +37,14 @@ const createIssue = async (req, res) => {
     const newIssue = new Issue({
       title: trimmedTitle,
       description,
-      owner,
+      owner: userId,
       repository: repoID,
     });
     await newIssue.save();
 
-    repository.issues.push(newIssue._id);
-    await repository.save();
+    await Repository.findByIdAndUpdate(repoID, {
+      $push: { issues: newIssue._id },
+    });
 
     res.status(201).json(newIssue);
   } catch (err) {
@@ -45,20 +54,26 @@ const createIssue = async (req, res) => {
 };
 
 const updateIssueById = async (req, res) => {
+  const userId = req.user.id;
   const { id } = req.params;
   const { description, status } = req.body;
 
   try {
-    const issue = await Issue.findById(id);
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: "Invalid Issue ID format!" });
+    }
 
+    const issue = await Issue.findOne({ _id: id, owner: userId });
     if (!issue) {
-      return res.status(404).send({ error: "Issue not found!" });
+      return res
+        .status(404)
+        .send({ error: "Issue not found or unauthorized!" });
     }
 
     if (description) issue.description = description;
     if (status) issue.status = status;
-
     await issue.save();
+
     res.status(200).json({ message: "Issue updated successfully!", issue });
   } catch (err) {
     console.error("Error updating issue : ", err.message);
@@ -67,12 +82,18 @@ const updateIssueById = async (req, res) => {
 };
 
 const deleteIssueById = async (req, res) => {
+  const userId = req.user.id;
   const { id } = req.params;
   try {
-    const issue = await Issue.findByIdAndDelete(id);
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: "Invalid Issue ID format!" });
+    }
 
+    const issue = await Issue.findOneAndDelete({ _id: id, owner: userId });
     if (!issue) {
-      return res.status(404).send({ error: "Issue not found!" });
+      return res
+        .status(404)
+        .send({ error: "Issue not found or unauthorized!" });
     }
 
     await Repository.findByIdAndUpdate(issue.repository, {
@@ -89,12 +110,17 @@ const deleteIssueById = async (req, res) => {
 };
 
 const getAllIssuesByRepo = async (req, res) => {
-  const { repoID } = req.params; // RepoID
+  const { repoID } = req.params;
 
   try {
+    if (!mongoose.Types.ObjectId.isValid(repoID)) {
+      return res.status(400).json({ error: "Invalid Repository ID format!" });
+    }
+
     const issues = await Issue.find({ repository: repoID })
       .populate("repository", "name description owner")
-      .populate("owner", "username email");
+      .populate("owner", "username email")
+      .lean();
 
     if (!issues || issues.length === 0) {
       return res
@@ -113,7 +139,8 @@ const getAllIssues = async (req, res) => {
   try {
     const issues = await Issue.find({})
       .populate("repository", "name description owner")
-      .populate("owner", "username email");
+      .populate("owner", "username email")
+      .lean();
 
     if (!issues || issues.length === 0) {
       return res.status(404).send({ error: "No Issues found!" });
@@ -127,16 +154,13 @@ const getAllIssues = async (req, res) => {
 };
 
 const getAllIssuesForCurrentUser = async (req, res) => {
-  const { userID } = req.params;
+  const userId = req.user.id;
 
   try {
-    if (!mongoose.Types.ObjectId.isValid(userID)) {
-      return res.status(400).send("Invalid User ID!");
-    }
-
-    const issues = await Issue.find({ owner: userID })
+    const issues = await Issue.find({ owner: userId })
       .populate("repository", "name description owner")
-      .populate("owner", "username email");
+      .populate("owner", "username email")
+      .lean();
 
     if (!issues || issues.length === 0) {
       return res.status(404).send({ error: "No Issues found for this user!" });
@@ -150,20 +174,28 @@ const getAllIssuesForCurrentUser = async (req, res) => {
 };
 
 const deleteAllIssuesByRepo = async (req, res) => {
-  const { repoID } = req.params; // RepoID
+  const userId = req.user.id;
+  const { repoID } = req.params;
 
   try {
-    // Find all issues for the given repository
-    const issues = await Issue.find({ repository: repoID });
+    if (!mongoose.Types.ObjectId.isValid(repoID)) {
+      return res.status(400).json({ error: "Invalid Repository ID format!" });
+    }
 
-    if (!issues || issues.length === 0) {
+    const repo = await Repository.findOne({
+      _id: repoID,
+      owner: userId,
+    }).lean();
+    if (!repo) {
       return res
-        .status(404)
-        .send({ error: "No Issues found for this repository!" });
+        .status(403)
+        .json({ error: "Unauthorized or Repository not found!" });
     }
 
     // Delete all issues in one go
-    const deleteResult = await Issue.deleteMany({ repository: repoID });
+    const deleteResult = await Issue.deleteMany({
+      repository: repoID,
+    });
 
     await Repository.findByIdAndUpdate(repoID, {
       $set: { issues: [] },
@@ -183,9 +215,14 @@ const getIssueById = async (req, res) => {
   const { id } = req.params;
 
   try {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: "Invalid Issue ID format!" });
+    }
+
     const issue = await Issue.findById(id)
       .populate("repository", "name description owner")
-      .populate("owner", "username email");
+      .populate("owner", "username email")
+      .lean();
 
     if (!issue) {
       return res.status(404).send({ error: "Issue not found!" });

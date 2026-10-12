@@ -4,7 +4,8 @@ const User = require("../models/userModel");
 const Issue = require("../models/issueModel");
 
 const createRepository = async (req, res) => {
-  const { owner, name, issues, content, description, visibility } = req.body;
+  const owner = req.user.id;
+  const { name, issues, content, description, visibility } = req.body;
 
   try {
     const trimmedName = name ? name.trim() : "";
@@ -13,8 +14,11 @@ const createRepository = async (req, res) => {
       return res.status(400).send({ error: "Repository name is required!" });
     }
 
-    if (!mongoose.Types.ObjectId.isValid(owner)) {
-      return res.status(400).send({ error: "Invalid User ID!" });
+    const existingRepo = await Repository.findOne({ name: trimmedName, owner });
+    if (existingRepo) {
+      return res
+        .status(400)
+        .json({ error: "You already have a repository with this name!" });
     }
 
     const user = await User.findById(owner);
@@ -69,12 +73,11 @@ const getAllRepositories = async (req, res) => {
 const fetchRepositoryById = async (req, res) => {
   const { id } = req.params;
 
-  // Validate id format
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).send({ error: "Invalid repository ID format" });
-  }
-
   try {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).send({ error: "Invalid repository ID format" });
+    }
+
     const repository = await Repository.findById(id).populate(
       "owner",
       "username email",
@@ -95,10 +98,9 @@ const fetchRepositoryByName = async (req, res) => {
   const { name } = req.params;
 
   try {
-    const repository = await Repository.findOne({ name }).populate(
-      "owner",
-      "username email",
-    );
+    const repository = await Repository.findOne({
+      name: name.trim(),
+    }).populate("owner", "username email");
 
     if (!repository) {
       return res.status(404).send({ error: "Repository not found!" });
@@ -112,14 +114,10 @@ const fetchRepositoryByName = async (req, res) => {
 };
 
 const fetchRepositoriesForCurrentUser = async (req, res) => {
-  const { userID } = req.params;
+  const userId = req.user.id;
 
   try {
-    if (!mongoose.Types.ObjectId.isValid(userID)) {
-      return res.status(400).send({ error: "Invalid User ID!" });
-    }
-
-    const repositories = await Repository.find({ owner: userID }).populate(
+    const repositories = await Repository.find({ owner: userId }).populate(
       "owner",
       "username email",
     );
@@ -140,6 +138,7 @@ const fetchRepositoriesForCurrentUser = async (req, res) => {
 };
 
 const updateRepositoryById = async (req, res) => {
+  const userId = req.user.id;
   const { id } = req.params;
   const { name, content, description, visibility } = req.body;
 
@@ -149,9 +148,15 @@ const updateRepositoryById = async (req, res) => {
     }
 
     const repository = await Repository.findById(id);
-
     if (!repository) {
       return res.status(404).send({ error: "Repository not found!" });
+    }
+
+    if (repository.owner.toString() !== userId) {
+      return res.status(403).json({
+        error:
+          "Unauthorized! You are not authorized to update this repository!",
+      });
     }
 
     if (name) repository.name = name.trim();
@@ -180,6 +185,7 @@ const updateRepositoryById = async (req, res) => {
 };
 
 const deleteRepositoryById = async (req, res) => {
+  const userId = req.user.id;
   const { id } = req.params;
 
   try {
@@ -192,9 +198,16 @@ const deleteRepositoryById = async (req, res) => {
       return res.status(404).send({ error: "Repository not found!" });
     }
 
+    if (repository.owner.toString() !== userId) {
+      return res.status(403).json({
+        error:
+          "Unauthorized! You are not authorized to delete this repository!",
+      });
+    }
+
     const deletedIssuesResult = await Issue.deleteMany({ repository: id });
 
-    await User.findByIdAndUpdate(repository.owner, {
+    await User.findByIdAndUpdate(userId, {
       $pull: { repositories: id },
     });
 
@@ -212,6 +225,7 @@ const deleteRepositoryById = async (req, res) => {
 };
 
 const toggleVisibilityById = async (req, res) => {
+  const userId = req.user.id;
   const { id } = req.params;
 
   try {
@@ -220,13 +234,18 @@ const toggleVisibilityById = async (req, res) => {
     }
 
     const repository = await Repository.findById(id);
-
     if (!repository) {
       return res.status(404).send({ error: "Repository not found!" });
     }
 
-    repository.visibility = !repository.visibility;
+    if (repository.owner.toString() !== userId) {
+      return res.status(403).json({
+        error:
+          "Unauthorized! You are not authorized to toggle this repository!",
+      });
+    }
 
+    repository.visibility = !repository.visibility;
     await repository.save();
 
     res.status(200).json({
