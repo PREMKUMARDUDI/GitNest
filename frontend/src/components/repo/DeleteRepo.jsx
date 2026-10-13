@@ -13,7 +13,6 @@ const DeleteRepo = () => {
   const [repo, setRepo] = useState({});
 
   const [isLoadingRepo, setIsLoadingRepo] = useState(true);
-  const [isLoadingIssues, setIsLoadingIssues] = useState(true);
   const [isDeleteWindowOpen, SetIsDeleteWindowOpen] = useState(true);
 
   useEffect(() => {
@@ -32,10 +31,10 @@ const DeleteRepo = () => {
   }, [repoId]);
 
   useEffect(() => {
-    if (repo.owner?._id === currentUser?._id) {
+    if (!isLoadingRepo && repo.owner?._id !== currentUser?._id) {
       navigate(`/repo/${repoId}`);
     }
-  }, [repo.owner, currentUser?._id, repoId, navigate]);
+  }, [isLoadingRepo, repo.owner?._id, currentUser?._id, repoId, navigate]);
 
   const handleDelete = async (e) => {
     e.preventDefault();
@@ -50,7 +49,7 @@ const DeleteRepo = () => {
   };
 
   // Show loading indicator while data is loading
-  if (isLoadingRepo || isLoadingIssues) {
+  if (isLoadingRepo) {
     return (
       <div style={{ marginLeft: "2rem" }}>
         <h2>Loading...</h2>

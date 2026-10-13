@@ -36,10 +36,10 @@ const DeleteIssue = () => {
   }, [id]);
 
   useEffect(() => {
-    if (issue.owner?._id !== currentUser?._id) {
+    if (!isLoadingIssue && issue.owner?._id !== currentUser?._id) {
       navigate(`/issue/${id}`);
     }
-  }, [issue.repository, currentUser?._id, id, navigate]);
+  }, [isLoadingIssue, issue.owner?._id, currentUser?._id, id, navigate]);
 
   const handleIssueDelete = async (e) => {
     e.preventDefault();

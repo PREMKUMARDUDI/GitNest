@@ -36,10 +36,10 @@ const UpdateRepo = () => {
   }, [repoId]);
 
   useEffect(() => {
-    if (repo.owner?._id === currentUser?._id) {
+    if (!isLoadingRepo && repo.owner?._id !== currentUser?._id) {
       navigate(`/repo/${repoId}`);
     }
-  }, [repo.owner, currentUser?._id, repoId, navigate]);
+  }, [isLoadingRepo, repo.owner?._id, currentUser?._id, repoId, navigate]);
 
   const handleUpdate = async (e) => {
     e.preventDefault();
