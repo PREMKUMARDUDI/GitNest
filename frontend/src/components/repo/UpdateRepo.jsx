@@ -13,21 +13,27 @@ const UpdateRepo = () => {
   const [repo, setRepo] = useState({});
   const [description, setDescription] = useState("");
   const [visibility, setVisibility] = useState(true);
-
   const [isLoadingRepo, setIsLoadingRepo] = useState(true);
+
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
     const fetchRepository = async () => {
       try {
         const res = await clientServer.get(`/repo/${repoId}`);
-        setRepo(res.data);
-        setIsLoadingRepo(false);
-        setDescription(res.data.description || "");
+        const repoData = res.data;
+        setRepo(repoData);
+        setDescription(
+          repoData.description !== undefined ? repoData.description : "",
+        );
         setVisibility(
-          res.data.visibility !== undefined ? res.data.visibility : true,
+          repoData.visibility !== undefined ? repoData.visibility : true,
         );
       } catch (err) {
         console.error("Error fetching repository details : ", err);
+        setErrorMessage("Could not load repository information.");
+      } finally {
         setIsLoadingRepo(false);
       }
     };
@@ -43,16 +49,20 @@ const UpdateRepo = () => {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
+    if (isUpdating) return;
+
+    setIsUpdating(true);
     try {
-      const res = await clientServer.put(`/repo/update/${repoId}`, {
+      await clientServer.put(`/repo/update/${repoId}`, {
         description,
         visibility,
       });
 
-      console.log("updated Repo : ", res.data);
       navigate(`/repo/${repoId}`);
     } catch (err) {
       console.error("Error updating repository : ", err);
+      setErrorMessage("Failed to update repository. Please try again.");
+      setIsUpdating(false);
     }
   };
 
@@ -61,6 +71,16 @@ const UpdateRepo = () => {
     return (
       <div style={{ marginLeft: "2rem" }}>
         <h2>Loading...</h2>
+      </div>
+    );
+  }
+
+  if (errorMessage && !repo) {
+    return (
+      <div style={{ marginLeft: "2rem" }}>
+        <h2>Error</h2>
+        <p>{errorMessage}</p>
+        <button onClick={() => navigate(-1)}>Go Back</button>
       </div>
     );
   }
@@ -150,8 +170,8 @@ const UpdateRepo = () => {
           </div>
 
           <div className="repo_Change">
-            <button type="submit" className="update_Repo">
-              Update Repository
+            <button type="submit" className="update_Repo" disabled={isUpdating}>
+              {isUpdating ? "Updating..." : "Update Repository"}
             </button>
             <button
               type="button"

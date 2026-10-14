@@ -15,19 +15,21 @@ const UpdateIssue = () => {
   const [status, setStatus] = useState("open");
   const [isLoadingIssue, setIsLoadingIssue] = useState(true);
 
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isUpdating, setIsUpdating] = useState(false);
+
   useEffect(() => {
     const fetchSelectedIssue = async () => {
       try {
         const res = await clientServer.get(`/issue/${id}`);
-        console.log("selectedIssue : ", res);
-        const data = res.data;
-        setIssue(data);
-        setIsLoadingIssue(false);
-        setDescription(data.description);
-        setStatus(data.status);
-        console.log("selected Issue:", data);
+        const issueData = res.data;
+        setIssue(issueData);
+        setDescription(issueData.description);
+        setStatus(issueData.status);
       } catch (err) {
         console.error("Error fetching issue : ", err);
+        setErrorMessage("Could not load issue information.");
+      } finally {
         setIsLoadingIssue(false);
       }
     };
@@ -43,16 +45,20 @@ const UpdateIssue = () => {
 
   const handleIssueUpdate = async (e) => {
     e.preventDefault();
+    if (isUpdating) return;
+
+    setIsUpdating(true);
     try {
-      const res = await clientServer.put(`/issue/update/${id}`, {
+      await clientServer.put(`/issue/update/${id}`, {
         description,
         status,
       });
 
-      console.log("updated Issue : ", res.data);
       navigate(`/issue/${id}`);
     } catch (err) {
       console.error("Error updating issue : ", err);
+      setErrorMessage("Failed to update issue. Please try again.");
+      setIsUpdating(false);
     }
   };
 
@@ -61,6 +67,16 @@ const UpdateIssue = () => {
     return (
       <div style={{ marginLeft: "2rem" }}>
         <h2>Loading...</h2>
+      </div>
+    );
+  }
+
+  if (errorMessage && !issue) {
+    return (
+      <div style={{ marginLeft: "2rem" }}>
+        <h2>Error</h2>
+        <p>{errorMessage}</p>
+        <button onClick={() => navigate(-1)}>Go Back</button>
       </div>
     );
   }
@@ -151,8 +167,12 @@ const UpdateIssue = () => {
           </div>
 
           <div className="issue_Change">
-            <button type="submit" className="update_Issue">
-              Update Issue
+            <button
+              type="submit"
+              className="update_Issue"
+              disabled={isUpdating}
+            >
+              {isUpdating ? "Updating..." : "Update Issue"}
             </button>
             <button
               type="button"

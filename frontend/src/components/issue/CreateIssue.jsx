@@ -55,12 +55,12 @@ const CreateIssue = () => {
       setFormError("Title is required!");
       return;
     }
-    if (!currentUser || !currentUser?._id) {
-      setFormError("User information not loaded. Cannot create repository.");
+    if (!description.trim()) {
+      setFormError("Description is required!");
       return;
     }
-    if (description === "") {
-      setFormError("Description is required!");
+    if (!currentUser || !currentUser?._id) {
+      setFormError("User information not loaded. Cannot create repository.");
       return;
     }
 
